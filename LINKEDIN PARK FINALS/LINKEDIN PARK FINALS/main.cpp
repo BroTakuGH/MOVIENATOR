@@ -1,10 +1,12 @@
 #include <iostream>
-
+#include "data.h"
 using namespace std;
 //test11111
 int main()
 {
     int input;
+    string input2;
+
     cout << "===========================================\n";
     cout << "\t\t TITLE\n";
     cout << "===========================================\n";
@@ -22,7 +24,9 @@ int main()
 
     switch (input) {
     case 1:
-
+        cout << "Enter Movie ID: ";
+        cin >> input2;
+        inputData(input2);
         break;
     case 2:
 
