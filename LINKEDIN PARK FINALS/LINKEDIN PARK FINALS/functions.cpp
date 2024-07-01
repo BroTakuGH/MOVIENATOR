@@ -41,7 +41,6 @@ string inputData(string userInput)
                 switch (numberOfDetection) {
                 case 1:
                     data.title += chars;
-
                     break;
                 case 2:
                     data.genre += chars;
