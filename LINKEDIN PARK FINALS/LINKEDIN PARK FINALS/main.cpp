@@ -7,6 +7,8 @@ int main()
     int input;
     string input2;
 
+    movieData data;
+
     cout << "===========================================\n";
     cout << "\t\t TITLE\n";
     cout << "===========================================\n";
@@ -24,9 +26,7 @@ int main()
 
     switch (input) {
     case 1:
-        cout << "Enter Movie ID: ";
-        cin >> input2;
-        inputData(input2);
+
         break;
     case 2:
 
@@ -35,7 +35,11 @@ int main()
 
         break;
     case 4:
-
+        cout << "Enter Movie ID: ";
+        cin >> input2;
+        
+        inputData(input2, to_string(input));
+;
         break;
     case 5:
 

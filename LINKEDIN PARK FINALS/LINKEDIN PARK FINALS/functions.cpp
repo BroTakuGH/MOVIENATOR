@@ -5,7 +5,9 @@
 #include "data.h"
 using namespace std;
 
-string inputData(string userInput)
+void movPrintables(string id, string title, string genre, string production);
+
+void inputData(string userInput, string userInput2)
 {
 
     int characters;
@@ -17,23 +19,22 @@ string inputData(string userInput)
     string data1;
 
     movieData data;
-
     ifstream file("movies.txt");
 
     input = userInput;
-    
-    
+
+
     while (getline(file, movies)) {
         int numberOfDetection = 0;
         characters = movies.length();
 
         for (int i = 0; i < characters; i++) {
             chars = movies[i];
-            
+
             if (chars == "|") {
                 numberOfDetection++;
             }
-            if (chars != "0" && numberOfDetection == 0) {
+            if (chars != "0" && numberOfDetection == 0 && chars == input) {
                 data.vidID = chars;
             }
             if (input == data.vidID && chars != "|") {
@@ -41,7 +42,6 @@ string inputData(string userInput)
                 switch (numberOfDetection) {
                 case 1:
                     data.title += chars;
-                    
                     break;
                 case 2:
                     data.genre += chars;
@@ -52,13 +52,17 @@ string inputData(string userInput)
                 }
             }
         }
-
+        
     }
+    if (userInput2 == "4") {
+        movPrintables(data.vidID, data.title, data.genre, data.production);
+    }
+    
+}
 
-    cout << "Video ID: " << input << endl;
-    cout << "Title: " << data.title << endl;
-    cout << "Genre: " << data.genre << endl;
-    cout << "Production: " << data.production << endl;
-
-    return 0;
+void movPrintables(string id, string title, string genre, string production) {
+    cout << "Video ID: " << id << endl;
+    cout << "Title: " << title << endl;
+    cout << "Genre: " << genre << endl;
+    cout << "Production: " << production << endl;
 }

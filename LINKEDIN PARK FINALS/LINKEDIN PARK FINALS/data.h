@@ -4,7 +4,7 @@
 
 using std::string;
 
-string inputData(string userInput);
+void inputData(string userInput, string userInput2);
 
 struct movieData {
 
