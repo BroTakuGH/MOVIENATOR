@@ -21,15 +21,15 @@ string inputData(string userInput)
     ifstream file("movies.txt");
 
     input = userInput;
-    
-    
+
+
     while (getline(file, movies)) {
         int numberOfDetection = 0;
         characters = movies.length();
 
         for (int i = 0; i < characters; i++) {
             chars = movies[i];
-            
+
             if (chars == "|") {
                 numberOfDetection++;
             }
@@ -41,7 +41,7 @@ string inputData(string userInput)
                 switch (numberOfDetection) {
                 case 1:
                     data.title += chars;
-                    
+
                     break;
                 case 2:
                     data.genre += chars;
@@ -52,9 +52,8 @@ string inputData(string userInput)
                 }
             }
         }
-
+        
     }
-
     cout << "Video ID: " << input << endl;
     cout << "Title: " << data.title << endl;
     cout << "Genre: " << data.genre << endl;

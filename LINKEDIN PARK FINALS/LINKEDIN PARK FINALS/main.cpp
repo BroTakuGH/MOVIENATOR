@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <deque>
+#include <string>
 #include "data.h"
 using namespace std;
 //test11111
@@ -6,6 +9,7 @@ int main()
 {
     int input;
     string input2;
+    movieData data;
 
     cout << "===========================================\n";
     cout << "\t\t TITLE\n";
@@ -27,6 +31,7 @@ int main()
         cout << "Enter Movie ID: ";
         cin >> input2;
         inputData(input2);
+        cout << "test111111111";
         break;
     case 2:
 

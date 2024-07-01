@@ -1,6 +1,2 @@
-﻿  functions.cpp
-D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(28,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  retrievedata.cpp
-  Generating Code...
-  LINK : D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\x64\Debug\LINKEDIN PARK FINALS.exe not found or not built by the last incremental link; performing full link
+﻿  main.cpp
   LINKEDIN PARK FINALS.vcxproj -> D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\x64\Debug\LINKEDIN PARK FINALS.exe
