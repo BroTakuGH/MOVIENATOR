@@ -14,3 +14,14 @@ struct movieData {
     string production;
 
 };
+
+struct costumerData {
+    
+    string cosId;
+    string cosName;
+    string cosAdd;
+
+    struct costumerRent {
+        string cosRent;
+    };
+};
