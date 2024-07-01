@@ -5,7 +5,9 @@
 #include "data.h"
 using namespace std;
 
-string inputData(string userInput)
+void movPrintables(string id, string title, string genre, string production, string copies);
+
+void inputData(string userInput, string userInput2)
 {
 
     int characters;
@@ -17,7 +19,6 @@ string inputData(string userInput)
     string data1;
 
     movieData data;
-
     ifstream file("movies.txt");
 
     input = userInput;
@@ -29,13 +30,15 @@ string inputData(string userInput)
 
         for (int i = 0; i < characters; i++) {
             chars = movies[i];
-
             if (chars == "|") {
                 numberOfDetection++;
             }
             if (chars != "0" && numberOfDetection == 0) {
+               
                 data.vidID = chars;
             }
+            
+
             if (input == data.vidID && chars != "|") {
 
                 switch (numberOfDetection) {
@@ -48,15 +51,28 @@ string inputData(string userInput)
                 case 3:
                     data.production += chars;
                     break;
+                case 4:
+                    data.numOfCopies += chars;
+                    break;
                 }
             }
+           
         }
-        
+        if (data.vidID != "1") {
+            int realID = stoi(data.vidID) - 1;
+            data.vidID = to_string(realID);
+        }
     }
-    cout << "Video ID: " << input << endl;
-    cout << "Title: " << data.title << endl;
-    cout << "Genre: " << data.genre << endl;
-    cout << "Production: " << data.production << endl;
+    if (userInput2 == "4") {
+        movPrintables(data.vidID, data.title, data.genre, data.production, data.numOfCopies);
+    }
+    
+}
 
-    return 0;
+void movPrintables(string id, string title, string genre, string production, string copies) {
+    cout << "Video ID: " << id << endl;
+    cout << "Title: " << title << endl;
+    cout << "Genre: " << genre << endl;
+    cout << "Production: " << production << endl;
+    cout << "Number of Copies: " << copies << endl;
 }
