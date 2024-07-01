@@ -12,5 +12,5 @@ struct movieData {
     string title;
     string genre;
     string production;
-
+    string numOfCopies;
 };
