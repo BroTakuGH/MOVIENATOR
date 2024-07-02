@@ -13,4 +13,6 @@ struct movieData {
     string genre;
     string production;
     string numOfCopies;
+    
 };
+
