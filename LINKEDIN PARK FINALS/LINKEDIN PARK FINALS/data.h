@@ -3,8 +3,13 @@
 #include <string>
 
 using std::string;
+void costumerPrintables(string ID, string Name, string Address);
+void rentMovie();
+void movInputData(string userInput, string userInput2);
+void cosPrintDetails(string userInput);
 
-void inputData(string userInput, string userInput2);
+
+
 
 struct movieData {
 
@@ -13,4 +18,11 @@ struct movieData {
     string genre;
     string production;
     string numOfCopies;
+};
+
+struct costumerData {
+    string cosID;
+    string cosName;
+    string cosAddress;
+    string cosRentedMov;
 };

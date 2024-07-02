@@ -4,10 +4,10 @@
 #include <string>
 #include "data.h"
 using namespace std;
-
+void costumerPrintables(string ID, string Name, string Address);
 void movPrintables(string id, string title, string genre, string production, string copies);
 
-void inputData(string userInput, string userInput2)
+void movInputData(string userInput, string userInput2)
 {
 
     int characters;
@@ -63,11 +63,10 @@ void inputData(string userInput, string userInput2)
             data.vidID = to_string(realID);
         }
     }
-    if (userInput2 == "4") {
+    if (userInput2 == "4" ||"2") {
         movPrintables(data.vidID, data.title, data.genre, data.production, data.numOfCopies);
     }
-    
-}
+    }
 
 void movPrintables(string id, string title, string genre, string production, string copies) {
     cout << "Video ID: " << id << endl;
@@ -75,4 +74,78 @@ void movPrintables(string id, string title, string genre, string production, str
     cout << "Genre: " << genre << endl;
     cout << "Production: " << production << endl;
     cout << "Number of Copies: " << copies << endl;
+}
+
+void cosPrintDetails(string userInput) {
+
+
+    int characters;
+
+    string input;
+    string costumer;
+    string chars;
+
+    string data1;
+
+    costumerData data;
+    ifstream file("costumers.txt");
+
+    input = userInput;
+
+
+    while (getline(file, costumer)) {
+        int numberOfDetection = 0;
+        characters = costumer.length();
+
+        for (int i = 0; i < characters; i++) {
+            chars = costumer[i];
+            if (chars == "|") {
+                numberOfDetection++;
+            }
+            if (chars != "0" && numberOfDetection == 0) {
+
+                data.cosID = chars;
+            }
+
+
+            if (input == data.cosID && chars != "|") {
+
+                switch (numberOfDetection) {
+                case 1:
+                    data.cosName += chars;
+                    break;
+                case 2:
+                    data.cosAddress += chars;
+                    break;
+                }
+            }
+
+        }
+        if (data.cosID != "1") {
+            int realID = stoi(data.cosID) - 1;
+            data.cosID = to_string(realID);
+        }
+    }
+    
+        costumerPrintables(data.cosID, data.cosName, data.cosAddress);
+        
+}
+
+void costumerPrintables(string ID, string Name, string Address) {
+    cout << "ID: " << ID << endl;
+    cout << "Name: " << Name << endl;
+    cout << "Address: " << Address << endl;
+}
+
+
+void rentMovie() {
+    string userInput,input2;
+
+    cout << "Enter Costumer ID: ";
+    cin >> userInput;
+    cosPrintDetails(userInput);
+
+    cout << "Enter Movie ID: ";
+    cin >> input2;
+    movInputData(input2, "2");
 }

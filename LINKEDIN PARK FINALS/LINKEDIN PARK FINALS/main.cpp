@@ -6,7 +6,7 @@ int main()
 {
     int input;
     string input2;
-
+    
     movieData data;
 
     cout << "===========================================\n";
@@ -29,7 +29,7 @@ int main()
 
         break;
     case 2:
-
+        rentMovie();
         break;
     case 3:
 
@@ -38,7 +38,7 @@ int main()
         cout << "Enter Movie ID: ";
         cin >> input2;
         
-        inputData(input2, to_string(input));
+        movInputData(input2, to_string(input));
 ;
         break;
     case 5:
