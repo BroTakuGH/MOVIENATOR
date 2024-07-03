@@ -128,33 +128,25 @@ void updateMovieData(string id, string title, string genre, string production, s
     while (getline(file, movies)) {
         int characters = movies.length();
         int numberOfDetection = 0;
+
         string tempID;
 
         for (int i = 0; i < characters; i++) {
             chars = movies[i];
             if (chars == "|") {
                 numberOfDetection++;
-                //line += chars;
-                
-                //continue;
             }
             if (chars != "0" && numberOfDetection == 0) {
-
                 tempID = chars;
-                if (tempID != "1") {
-                    int realID = stoi(tempID) - 1;
-                    tempID = to_string(realID);
-                }
             }
-
-            line += chars;
-            
+                line += chars;
         }
         
-       /* if (id == tempID) {
+        if (id == tempID) {
             line = id + "|" + title + "|" + genre + "|" + production + "|" + copies;
-        }*/
+        }
         lines.push_back(line);
+        line = {""};
         }
     
     
@@ -165,6 +157,7 @@ void updateMovieData(string id, string title, string genre, string production, s
     }
 
             file.close();
+
 }
 
 void cosPrintDetails(string userInput) {
