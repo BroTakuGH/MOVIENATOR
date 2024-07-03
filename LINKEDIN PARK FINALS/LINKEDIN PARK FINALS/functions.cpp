@@ -8,7 +8,7 @@ using namespace std;
 
 void movPrintables(string id, string title, string genre, string production, string copies);
 void displayAllVideos(string id, string title, string genre, string production, string copies);
-void updateMovieData(string id, string title, string genre, string production, string copies);
+void updateMovieData(string id, string title, string genre, string production, string copies, string userInputId);
 
 void inputData(string userInput, string userInput2)
 {
@@ -56,6 +56,7 @@ void inputData(string userInput, string userInput2)
                     break;
                 case 4:
                     data->numOfCopies += chars;
+                    
                     break;
                 }
             }
@@ -71,11 +72,13 @@ void inputData(string userInput, string userInput2)
         }
         else if (userInput2 == "2" && input == data->vidID) {
 
-            movPrintables(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
+            inputData(data->vidID, "4");
+            
             if (stoi(data->numOfCopies) != 0)
             {
-                data->numOfCopies = stoi(data->numOfCopies) - 1;
-                updateMovieData(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
+                
+                data->numOfCopies = to_string(stoi(data->numOfCopies) - 1);
+                updateMovieData(data->vidID, data->title, data->genre, data->production, data->numOfCopies, userInput2);
                 cout << "Movie rented successfully. Updated details:" << endl;
                 movPrintables(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
             }
@@ -116,7 +119,7 @@ void costumerPrintables(string ID, string Name, string Address) {
     cout << "Address: " << Address << endl;
 }
 
-void updateMovieData(string id, string title, string genre, string production, string copies) {
+void updateMovieData(string id, string title, string genre, string production, string copies, string userInputId) {
     ifstream file("movies.txt");
     vector<string> lines;
     string movies;
@@ -125,26 +128,42 @@ void updateMovieData(string id, string title, string genre, string production, s
     while (getline(file, movies)) {
         int characters = movies.length();
         int numberOfDetection = 0;
-        movieData data;
+        string tempID;
 
         for (int i = 0; i < characters; i++) {
             chars = movies[i];
             if (chars == "|") {
                 numberOfDetection++;
-                line += chars;
-                continue;
+                //line += chars;
+                
+                //continue;
             }
-            line += chars;
-        }
+            if (chars != "0" && numberOfDetection == 0) {
 
+                tempID = chars;
+                if (tempID != "1") {
+                    int realID = stoi(tempID) - 1;
+                    tempID = to_string(realID);
+                }
+            }
+
+            line += chars;
             
         }
-        line = id + "|" + title + "|" + genre + "|" + production + "|" + copies;
+        
+       /* if (id == tempID) {
+            line = id + "|" + title + "|" + genre + "|" + production + "|" + copies;
+        }*/
         lines.push_back(line);
-        ofstream outFile("movies.txt");
-            for (const auto& l : lines) {
-            outFile << l << endl;
         }
+    
+    
+
+    ofstream outFile("movies.txt");
+    for (const auto& l : lines) {
+        outFile << l << endl;
+    }
+
             file.close();
 }
 
