@@ -1,44 +1,12 @@
 #include <iostream>
-#include <fstream>
-#include <deque>
-#include <string>
 #include "data.h"
 using namespace std;
 //test11111
-
-struct test {
-    string x;
-    string y;
-    string z;
-};
 int main()
 {
-    
-   
-    
-
-    
- /*   for (int i = 0; i<= 1; i ++){
-        test* ptr = new test;
-    ptr->x += "what";
-    ptr->y += "what";
-    ptr->z += "what";
-    cout << ptr->x << ptr->y << ptr->z;
-
-    delete ptr;
-    }
-    */
-
-    
-
-    
-
-    
-  //  a = { "what!!!","lmao","amazing!" };
-
-
     int input;
     string input2;
+    
     movieData data;
 
     cout << "===========================================\n";
@@ -61,7 +29,7 @@ int main()
 
         break;
     case 2:
-
+        rentMovie();
         break;
     case 3:
 
@@ -70,11 +38,11 @@ int main()
         cout << "Enter Movie ID: ";
         cin >> input2;
         
-        inputData(input2, to_string(input));
+        movInputData(input2, to_string(input));
 ;
         break;
     case 5:
-        inputData("1", to_string(input));
+
         break;
     case 6:
 

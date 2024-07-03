@@ -6,8 +6,6 @@
 #include "data.h"
 using namespace std;
 
-void movPrintables(string id, string title, string genre, string production, string copies);
-void displayAllVideos(string id, string title, string genre, string production, string copies);
 
 
 void costumerPrintables(string ID, string Name, string Address) {
@@ -28,47 +26,46 @@ movieData getMovieDataById(const string& userInput) {
     int characters;
     string movies;
     string chars;
-    string data1;
-
-
     movieData data;
     ifstream file("movies.txt");
 
     while (getline(file, movies)) {
-        movieData* data = new movieData;
         int numberOfDetection = 0;
         characters = movies.length();
+        data = {};  // Reset data for each movie line
 
         for (int i = 0; i < characters; i++) {
-            
             chars = movies[i];
             if (chars == "|") {
                 numberOfDetection++;
+                continue;
+            }
+
             if (chars != "0" && numberOfDetection == 0) {
-               
-                data->vidID = chars;
-               
-            
+                data.vidID += chars;
+            }
 
-            if (input == data->vidID && chars != "|") {
-
-            
-
-                    
+            if (userInput == data.vidID && chars != "|") {
+                switch (numberOfDetection) {
                 case 1:
-                    data->title += chars;
-                    
+                    data.title += chars;
+                    break;
                 case 2:
-                    data->genre += chars;
+                    data.genre += chars;
                     break;
                 case 3:
-                    data->production += chars;
+                    data.production += chars;
                     break;
                 case 4:
-                    data->numOfCopies += chars;
+                    data.numOfCopies += chars;
                     break;
-            
-            
+                }
+            }
+        }
+
+        if (data.vidID == userInput) {
+            return data;
+        }
     }
 
     throw invalid_argument("Movie ID not found.");
@@ -179,8 +176,8 @@ void cosPrintDetails(string userInput) {
             return;
         }
     }
-    }
-    
+}
+
 void rentMovie() {
     string userInput, input2;
 
@@ -218,5 +215,3 @@ void rentMovie() {
 }
 
 
-    cout << "Number of Copies: " << copies << endl;
-}
