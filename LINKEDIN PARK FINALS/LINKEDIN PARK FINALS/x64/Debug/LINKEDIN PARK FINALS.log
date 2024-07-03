@@ -1,3 +1,5 @@
 ﻿  functions.cpp
-D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(28,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  LINKEDIN PARK FINALS.vcxproj -> D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\x64\Debug\LINKEDIN PARK FINALS.exe
+C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(30,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(126,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(177,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  LINKEDIN PARK FINALS.vcxproj -> C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\x64\Debug\LINKEDIN PARK FINALS.exe

@@ -5,7 +5,7 @@
 using std::string;
 
 void inputData(string userInput, string userInput2);
-
+void rentMovie();
 struct movieData {
 
     string vidID;
@@ -14,5 +14,13 @@ struct movieData {
     string production;
     string numOfCopies;
     
+};
+
+struct costumerData {
+
+    string cosID;
+    string cosName;
+    string cosAddress;
+
 };
 

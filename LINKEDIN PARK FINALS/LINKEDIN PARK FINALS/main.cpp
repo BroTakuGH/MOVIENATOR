@@ -61,7 +61,7 @@ int main()
 
         break;
     case 2:
-
+        rentMovie();
         break;
     case 3:
 
