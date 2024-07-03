@@ -9,8 +9,6 @@ void movInputData(string userInput, string userInput2);
 void cosPrintDetails(string userInput);
 
 
-
-
 struct movieData {
 
     string vidID;
