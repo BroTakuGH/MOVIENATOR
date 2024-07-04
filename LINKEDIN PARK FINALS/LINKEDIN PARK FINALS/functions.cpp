@@ -72,14 +72,14 @@ void inputData(string userInput, string userInput2)
         }
         else if (userInput2 == "2" && input == data->vidID) {
 
-            inputData(data->vidID, "4");
+      
             
             if (stoi(data->numOfCopies) != 0)
             {
                 
                 data->numOfCopies = to_string(stoi(data->numOfCopies) - 1);
                 updateMovieData(data->vidID, data->title, data->genre, data->production, data->numOfCopies, userInput2);
-                cout << "Movie rented successfully. Updated details:" << endl;
+               
                 movPrintables(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
             }
             else {
@@ -202,22 +202,71 @@ void cosPrintDetails(string userInput) {
     }
 }
 
+void appendToRentalFile(string customerId, string movieId) {
+    string rentalFilename = "rental.txt";
+    fstream file(rentalFilename, ios::in | ios::out);
+
+    if (!file) {
+        cerr << "Unable to open rental file." << endl;
+        return;
+    }
+
+    string line;
+    streampos prevPos = file.tellg();
+    bool customerFound = false;
+
+    while (getline(file, line)) {
+        size_t delimiterPos = line.find('|');
+        if (delimiterPos != string::npos) {
+            string fileCustomerId = to_string(stoi(line.substr(0, delimiterPos)));
+            if (fileCustomerId == customerId) {
+                file.seekp(prevPos + streamoff(line.size()));
+                file << "|" << movieId;
+                customerFound = true;
+                break;
+            }
+        }
+
+        prevPos = file.tellg();
+    }
+
+    if (!customerFound) {
+        file.clear();
+        file.seekp(0, ios::end);
+        file << customerId << "|" << movieId << endl;
+    }
+
+    file.close();
+}
 
 void rentMovie() {
-    string userInput, input2;
+    string inputCos, inputMov, recur;
+    
 
     cout << "Enter Customer ID: ";
-    cin >> userInput;
-    cosPrintDetails(userInput);
-
+    cin >> inputCos;
+    cosPrintDetails(inputCos);
+    jump:
     cout << "Enter Movie ID: ";
-    cin >> input2;
+    cin >> inputMov;
 
     try {
-        inputData(input2, "2");
+        inputData(inputMov, "2");
+        appendToRentalFile(inputCos, inputMov);
     }
     catch (const invalid_argument& e) {
         cerr << e.what() << endl;
+    }
+
+    //For Function Recursion
+    cout << "do you want to rent another movie?(Y/N)";
+    cin >> recur;
+
+    if (recur == "Y") {
+        goto jump;
+    }
+    else {
+        cout << "Thank you for renting from us!!";
     }
 }
 
