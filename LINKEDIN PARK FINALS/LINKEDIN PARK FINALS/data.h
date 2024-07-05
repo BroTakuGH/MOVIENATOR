@@ -6,6 +6,7 @@ using std::string;
 
 void inputData(string userInput, string userInput2);
 void rentMovie();
+
 struct movieData {
 
     string vidID;

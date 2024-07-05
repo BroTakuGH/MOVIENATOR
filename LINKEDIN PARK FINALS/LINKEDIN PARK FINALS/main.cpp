@@ -6,11 +6,6 @@
 using namespace std;
 //test11111
 
-struct test {
-    string x;
-    string y;
-    string z;
-};
 int main()
 {
     
@@ -77,7 +72,10 @@ int main()
         inputData("1", to_string(input));
         break;
     case 6:
+        cout << "Enter Movie ID: ";
+        cin >> input2;
 
+        inputData(input2, to_string(input));
         break;
     case 7:
 

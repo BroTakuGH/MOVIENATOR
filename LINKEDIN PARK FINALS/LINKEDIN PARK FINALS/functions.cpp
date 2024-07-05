@@ -9,6 +9,7 @@ using namespace std;
 void movPrintables(string id, string title, string genre, string production, string copies);
 void displayAllVideos(string id, string title, string genre, string production, string copies);
 void updateMovieData(string id, string title, string genre, string production, string copies, string userInputId);
+bool checkVideoAvailability(string numOfCopies);
 
 void inputData(string userInput, string userInput2)
 {
@@ -67,8 +68,17 @@ void inputData(string userInput, string userInput2)
             int inputToString = stoi(input) + 1;
             input = to_string(inputToString);
         }
-        else  if (userInput2 == "4" && input == data->vidID) {
+        else  if (userInput2 == "4" || userInput2 == "6" && input == data->vidID) {
             movPrintables(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
+            
+            if (userInput2 == "6") {
+                if (checkVideoAvailability(data->numOfCopies)) {
+                    cout << "Availability: Available";
+                }
+                else {
+                    cout << "Availability: Unavailable";
+                }
+            }
         }
         else if (userInput2 == "2" && input == data->vidID) {
 
@@ -95,6 +105,15 @@ void inputData(string userInput, string userInput2)
     }
    
   
+}
+
+bool checkVideoAvailability(string numOfCopies) {
+    if (numOfCopies != "0") {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 void movPrintables(string id, string title, string genre, string production, string copies) {
