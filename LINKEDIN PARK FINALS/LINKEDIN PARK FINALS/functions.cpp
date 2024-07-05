@@ -162,6 +162,7 @@ void updateMovieData(string id, string title, string genre, string production, s
         }
         
         if (id == tempID) {
+            id = to_string(10000 + stoi(id)).substr(1);
             line = id + "|" + title + "|" + genre + "|" + production + "|" + copies;
         }
         lines.push_back(line);
