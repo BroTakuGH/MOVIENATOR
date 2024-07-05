@@ -170,7 +170,7 @@ void cosPrintDetails(string userInput) {
     while (getline(file, costumer)) {
         int numberOfDetection = 0;
         characters = costumer.length();
-        data = {};  // Reset data for each costumer line
+        data = {};  
 
         for (int i = 0; i < characters; i++) {
             chars = costumer[i];
@@ -202,42 +202,51 @@ void cosPrintDetails(string userInput) {
     }
 }
 
+
 void appendToRentalFile(string customerId, string movieId) {
     string rentalFilename = "rental.txt";
     fstream file(rentalFilename, ios::in | ios::out);
+    vector<string> lines;
+    string line;
 
     if (!file) {
         cerr << "Unable to open rental file." << endl;
         return;
     }
 
-    string line;
-    streampos prevPos = file.tellg();
     bool customerFound = false;
 
     while (getline(file, line)) {
-        size_t delimiterPos = line.find('|');
-        if (delimiterPos != string::npos) {
-            string fileCustomerId = to_string(stoi(line.substr(0, delimiterPos)));
+        size_t firstDelimiterPos = line.find('|');
+        if (firstDelimiterPos != string::npos) {
+            // Extract customerId part before the first '|'
+            string fileCustomerId = line.substr(0, firstDelimiterPos);
+
             if (fileCustomerId == customerId) {
-                file.seekp(prevPos + streamoff(line.size()));
-                file << "|" << movieId;
+                // Append movieId to the existing line
+                line += "|" + movieId;
                 customerFound = true;
-                break;
             }
         }
-
-        prevPos = file.tellg();
-    }
-
-    if (!customerFound) {
-        file.clear();
-        file.seekp(0, ios::end);
-        file << customerId << "|" << movieId << endl;
+        lines.push_back(line); // Store line in vector
     }
 
     file.close();
+
+    if (!customerFound) {
+        // Append new line if customerId was not found
+        lines.push_back(customerId + "|" + movieId);
+    }
+
+    // Write updated content back to the file
+    ofstream outFile(rentalFilename);
+    for (const string& updatedLine : lines) {
+        outFile << updatedLine << endl;
+    }
+    outFile.close();
 }
+
+
 
 void rentMovie() {
     string inputCos, inputMov, recur;
