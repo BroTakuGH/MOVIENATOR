@@ -28,6 +28,7 @@ private:
     queue <Customer> customers; // Queue to store customers
 
 public:
+    void writeCustomersToFile();
     void readCustomers();
     void cosPrintDetails(const std::string& userInput);
     void rentMovie();

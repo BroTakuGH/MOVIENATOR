@@ -5,6 +5,8 @@
 #include "data.h"
 #include <vector>
 #include <sstream>
+#include <iomanip>
+
 using namespace std;
 
 void movPrintables(string id, string title, string genre, string production, string copies);
@@ -180,14 +182,34 @@ void CustomerManager::readCustomers() {
             getline(ss, cust.cosAdd, '|');
 
             customers.push(cust);
-           
-            cout << cust.cosID << "|" << cust.cosAdd << "|" << cust.cosName<<endl;
         }
         file.close();
         
     }
     else {
         cout << "Unable to open file " << filename << endl;
+    }
+}
+
+void CustomerManager::writeCustomersToFile() {
+    string filename = "customers.txt";
+    ofstream file(filename, ios::trunc); // Ensures that all data is deleted before inserting the contents of the queue
+    if (file.is_open()) {
+        while (!customers.empty()) {
+            Customer cust = customers.front();
+
+            // Format cosID with leading zeros
+            file << setw(4) << setfill('0') << cust.cosID << "|"
+                << cust.cosName << "|"
+                << cust.cosAdd << endl;
+
+            customers.pop();
+        }
+        file.close();
+        cout << "Customer data successfully saved to file." << endl;
+    }
+    else {
+        cout << "Unable to open file " << filename << " for writing." << endl;
     }
 }
 
@@ -274,11 +296,11 @@ void CustomerManager::rentMovie() {
     cout << "do you want to rent another movie?(Y/N)";
     cin >> recur;
 
-    if (recur == "Y") {
+    if (recur == "Y" || recur == "y") {
         goto jump;
     }
     else {
-        cout << "Thank you for renting from us!!";
+        cout << "Thank you for renting from us!!"<<endl;
     }
 }
 

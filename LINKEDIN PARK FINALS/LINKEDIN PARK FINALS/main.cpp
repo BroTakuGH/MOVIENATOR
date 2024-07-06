@@ -42,6 +42,7 @@ int main()
         break;
     case 2:
         cm.rentMovie();
+        main();
         break;
     case 3:
 
@@ -63,7 +64,7 @@ int main()
 
         break;
     case 8:
-
+        cm.writeCustomersToFile();
         break;
     }
 }
