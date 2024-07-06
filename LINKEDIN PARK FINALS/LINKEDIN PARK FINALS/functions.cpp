@@ -4,6 +4,7 @@
 #include <string>
 #include "data.h"
 #include <vector>
+#include <sstream>
 using namespace std;
 
 void movPrintables(string id, string title, string genre, string production, string copies);
@@ -159,46 +160,48 @@ void updateMovieData(string id, string title, string genre, string production, s
             file.close();
 
 }
+void CustomerManager::readCustomers() {
+    string filename = "customers.txt";
+    ifstream file(filename);
+    if (file.is_open()) {
+        string line;
+        while (getline(file, line)) {
+            Customer cust;
+            stringstream ss(line);
+            string token;
 
-void cosPrintDetails(string userInput) {
-    int characters;
-    string costumer;
-    string chars;
-    costumerData data;
-    ifstream file("costumers.txt");
+            // Read ID (assumed to be the first token before '|')
+            getline(ss, token, '|');
+            cust.cosID = token; 
+            cust.cosID.erase(0, min(cust.cosID.find_first_not_of('0'), cust.cosID.size() - 1));
+            // Read rest of the line as name (after '|')
+            getline(ss, cust.cosName, '|');
 
-    while (getline(file, costumer)) {
-        int numberOfDetection = 0;
-        characters = costumer.length();
-        data = {};  
+            getline(ss, cust.cosAdd, '|');
 
-        for (int i = 0; i < characters; i++) {
-            chars = costumer[i];
-            if (chars == "|") {
-                numberOfDetection++;
-                continue;
-            }
-
-            if (chars != "0" && numberOfDetection == 0) {
-                data.cosID += chars;
-            }
-
-            if (userInput == data.cosID && chars != "|") {
-                switch (numberOfDetection) {
-                case 1:
-                    data.cosName += chars;
-                    break;
-                case 2:
-                    data.cosAddress += chars;
-                    break;
-                }
-            }
+            customers.push(cust);
+           
+            cout << cust.cosID << "|" << cust.cosAdd << "|" << cust.cosName<<endl;
         }
+        file.close();
+        
+    }
+    else {
+        cout << "Unable to open file " << filename << endl;
+    }
+}
 
-        if (data.cosID == userInput) {
-            costumerPrintables(data.cosID, data.cosName, data.cosAddress);
+void CustomerManager::cosPrintDetails(const std::string& userInput) {
+    queue<Customer> temp = customers;
+    while (!temp.empty()) {
+        Customer customer = temp.front();
+        if (userInput == customer.cosID) {
+            cout << "Customer ID: " << customer.cosID << endl;
+            cout << "Customer Name: " << customer.cosName << endl;
+            cout << "Customer Address: " << customer.cosAdd << endl;
             return;
         }
+        temp.pop();
     }
 }
 
@@ -248,13 +251,13 @@ void appendToRentalFile(string customerId, string movieId) {
 
 
 
-void rentMovie() {
+void CustomerManager::rentMovie() {
     string inputCos, inputMov, recur;
     
-
     cout << "Enter Customer ID: ";
     cin >> inputCos;
-    cosPrintDetails(inputCos);
+    CustomerManager::cosPrintDetails(inputCos);
+
     jump:
     cout << "Enter Movie ID: ";
     cin >> inputMov;

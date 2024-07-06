@@ -1,11 +1,12 @@
 #pragma once
 
 #include <string>
+#include <queue>
 
-using std::string;
+using namespace std;
 
 void inputData(string userInput, string userInput2);
-void rentMovie();
+
 struct movieData {
 
     string vidID;
@@ -16,11 +17,19 @@ struct movieData {
     
 };
 
-struct costumerData {
+class CustomerManager {
+private:
+    struct Customer {
+        string cosID;
+        string cosName;
+        string cosAdd;
+    };
 
-    string cosID;
-    string cosName;
-    string cosAddress;
+    queue <Customer> customers; // Queue to store customers
 
+public:
+    void readCustomers();
+    void cosPrintDetails(const std::string& userInput);
+    void rentMovie();
 };
 

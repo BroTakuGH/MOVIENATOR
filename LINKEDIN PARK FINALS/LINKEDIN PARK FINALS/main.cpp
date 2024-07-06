@@ -3,7 +3,7 @@
 #include <deque>
 #include <string>
 #include "data.h"
-using namespace std;
+
 //test11111
 
 struct test {
@@ -11,36 +11,16 @@ struct test {
     string y;
     string z;
 };
+using namespace std;
+
 int main()
 {
-    
-   
-    
-
-    
- /*   for (int i = 0; i<= 1; i ++){
-        test* ptr = new test;
-    ptr->x += "what";
-    ptr->y += "what";
-    ptr->z += "what";
-    cout << ptr->x << ptr->y << ptr->z;
-
-    delete ptr;
-    }
-    */
-
-    
-
-    
-
-    
-  //  a = { "what!!!","lmao","amazing!" };
-
-
+    CustomerManager cm;
+    cm.readCustomers();
     int input;
     string input2;
     movieData data;
-
+    
     cout << "===========================================\n";
     cout << "\t\t TITLE\n";
     cout << "===========================================\n";
@@ -61,7 +41,7 @@ int main()
 
         break;
     case 2:
-        rentMovie();
+        cm.rentMovie();
         break;
     case 3:
 

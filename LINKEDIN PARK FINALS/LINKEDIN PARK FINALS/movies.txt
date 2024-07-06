@@ -1,2 +1,2 @@
-1|Avengers: Endgame|Sci-Fi|Marvel Studios|5
-2|Inside Out 2|Family/Comedy|Walt Disney|5
+1|Avengers: Endgame|Sci-Fi|Marvel Studios|4
+2|Inside Out 2|Family/Comedy|Walt Disney|4
