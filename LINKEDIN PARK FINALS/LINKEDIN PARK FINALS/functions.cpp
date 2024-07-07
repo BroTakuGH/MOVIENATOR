@@ -9,9 +9,11 @@
 
 using namespace std;
 
+//functions
 void movPrintables(string id, string title, string genre, string production, string copies);
 void displayAllVideos(string id, string title, string genre, string production, string copies);
 void updateMovieData(string id, string title, string genre, string production, string copies, string userInputId);
+bool checkVideoAvailability(string numOfCopies);
 
 void inputData(string userInput, string userInput2)
 {
@@ -65,13 +67,25 @@ void inputData(string userInput, string userInput2)
             }
             
         }
+        
         if (userInput2 == "5") {
             displayAllVideos(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
             int inputToString = stoi(input) + 1;
             input = to_string(inputToString);
         }
-        else  if (userInput2 == "4" && input == data->vidID) {
+        else  if (userInput2 == "4" && input == data->vidID || userInput2 == "6" && input == data->vidID) {
+           // cout << input << " INPUT";
             movPrintables(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
+           // cout << data->vidID << " INPUT VID ID";
+            if (userInput2 == "6") {
+                if (checkVideoAvailability(data->numOfCopies)) {
+                    cout << "Availability: Available" << endl;
+                }
+                else {
+                    cout << "Availability: Unavailable" << endl;
+                }
+
+            }
         }
         else if (userInput2 == "2" && input == data->vidID) {
 
@@ -89,6 +103,12 @@ void inputData(string userInput, string userInput2)
                 cout << "Movie Not Available";
             }
         }
+        else if (userInput2 == "7" && input == data->vidID) {
+           
+            cout << data->vidID << data->title << endl;
+
+        }
+        
         if (data->vidID != "1") {
             int realID = stoi(data->vidID) - 1;
             data->vidID = to_string(realID);
@@ -98,6 +118,15 @@ void inputData(string userInput, string userInput2)
     }
    
   
+}
+
+bool checkVideoAvailability(string numOfCopies) {
+    if (numOfCopies != "0") {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 void movPrintables(string id, string title, string genre, string production, string copies) {
@@ -146,7 +175,8 @@ void updateMovieData(string id, string title, string genre, string production, s
         }
         
         if (id == tempID) {
-            line = id + "|" + title + "|" + genre + "|" + production + "|" + copies;
+            string temp = to_string(10000 + stoi(id)).substr(1);
+            line = temp + "|" + title + "|" + genre + "|" + production + "|" + copies;
         }
         lines.push_back(line);
         line = {""};
@@ -303,4 +333,71 @@ void CustomerManager::rentMovie() {
         cout << "Thank you for renting from us!!"<<endl;
     }
 }
+
+void CustomerManager::videoRentedByCustomer() {
+    ifstream file("rental.txt");
+
+    int characters;
+
+    string input;
+    string rentedMovies;
+    string chars;
+    string data1;
+    string idRentedByCustomer;
+
+    cout << "Enter ID:" << endl;
+    cin >> input;
+
+    cout << "List of Videos Rented: " << endl;
+
+    while (getline(file, rentedMovies)) {
+        int numberOfDetection = 0;
+        
+        int temp;
+        string tempID;
+
+        characters = rentedMovies.length();
+        movieData* data = new movieData;
+
+        /* cout << "Enter Customer ID: ";
+         cin >> inputCos;
+         CustomerManager::cosPrintDetails(inputCos);*/
+
+        for (int i = 0; i < characters; i++) {
+
+            chars = rentedMovies[i];
+
+            if (chars == "|") {
+                numberOfDetection++;
+            }
+            if (chars != "0" && numberOfDetection == 0) {
+                //add the id from chars
+                tempID = chars;
+                }
+                
+            //check Customer ID
+            if (input == tempID && numberOfDetection != 0 && chars != "|") {
+                //detect if Movie ID was repeated
+                if (idRentedByCustomer == chars) {
+                    temp++;
+                }
+                else if (idRentedByCustomer != chars) {
+                    temp = 0;
+                }
+                idRentedByCustomer = chars;
+                
+                if (temp == 0) {
+                    inputData(idRentedByCustomer, "7");
+                }
+                
+            }
+        }
+    }
+}
+           
+
+                
+
+               
+            
 

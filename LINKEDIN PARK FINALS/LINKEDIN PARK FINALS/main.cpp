@@ -50,18 +50,20 @@ int main()
     case 4:
         cout << "Enter Movie ID: ";
         cin >> input2;
-        
+
         inputData(input2, to_string(input));
-;
         break;
     case 5:
         inputData("1", to_string(input));
         break;
     case 6:
+        cout << "Enter Movie ID: ";
+        cin >> input2;
 
+        inputData(input2, to_string(input));
         break;
     case 7:
-
+        cm.videoRentedByCustomer();
         break;
     case 8:
         cm.writeCustomersToFile();

@@ -32,5 +32,6 @@ public:
     void readCustomers();
     void cosPrintDetails(const std::string& userInput);
     void rentMovie();
+    void videoRentedByCustomer();
 };
 
