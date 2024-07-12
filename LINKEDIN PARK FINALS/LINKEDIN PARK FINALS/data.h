@@ -17,21 +17,32 @@ struct movieData {
     
 };
 
+
 class CustomerManager {
 private:
+     
+
+public:
     struct Customer {
         string cosID;
         string cosName;
         string cosAdd;
     };
 
-    queue <Customer> customers; // Queue to store customers
-
-public:
+    queue <Customer> customers;// Queue to store customers
     void writeCustomersToFile();
     void readCustomers();
     void cosPrintDetails(const std::string& userInput);
     void rentMovie();
+    
+};
+
+class RentedManager {
+private:
+    CustomerManager cm;
+public:
+    void returnRentedVideo();
     void videoRentedByCustomer();
+    bool movieAlreadyRented(string customerId, string movieId);
 };
 

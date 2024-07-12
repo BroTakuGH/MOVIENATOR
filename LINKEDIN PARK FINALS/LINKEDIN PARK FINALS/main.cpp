@@ -16,6 +16,7 @@ using namespace std;
 int main()
 {
     CustomerManager cm;
+    RentedManager rm;
     cm.readCustomers();
     int input;
     string input2;
@@ -45,7 +46,8 @@ int main()
         main();
         break;
     case 3:
-
+        rm.returnRentedVideo();
+        main();
         break;
     case 4:
         cout << "Enter Movie ID: ";
@@ -63,7 +65,8 @@ int main()
         inputData(input2, to_string(input));
         break;
     case 7:
-        cm.videoRentedByCustomer();
+        rm.videoRentedByCustomer();
+        main();
         break;
     case 8:
         cm.writeCustomersToFile();

@@ -89,14 +89,11 @@ void inputData(string userInput, string userInput2)
         }
         else if (userInput2 == "2" && input == data->vidID) {
 
-      
-            
             if (stoi(data->numOfCopies) != 0)
             {
                 
                 data->numOfCopies = to_string(stoi(data->numOfCopies) - 1);
                 updateMovieData(data->vidID, data->title, data->genre, data->production, data->numOfCopies, userInput2);
-               
                 movPrintables(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
             }
             else {
@@ -107,6 +104,10 @@ void inputData(string userInput, string userInput2)
            
             cout << data->vidID << data->title << endl;
 
+        }
+        else if (userInput2 == "3" && input == data->vidID) {
+            data->numOfCopies = to_string(stoi(data->numOfCopies) + 1);
+            updateMovieData(data->vidID, data->title, data->genre, data->production, data->numOfCopies, userInput2);
         }
         
         if (data->vidID != "1") {
@@ -244,17 +245,28 @@ void CustomerManager::writeCustomersToFile() {
 }
 
 void CustomerManager::cosPrintDetails(const std::string& userInput) {
+    readCustomers();
+    cout << "Searching for customer with ID: " << userInput << endl;
+
     queue<Customer> temp = customers;
     while (!temp.empty()) {
         Customer customer = temp.front();
-        if (userInput == customer.cosID) {
-            cout << "Customer ID: " << customer.cosID << endl;
+
+        
+        string strippedStoredID = to_string(stoi(customer.cosID));
+
+        
+        string strippedInput = to_string(stoi(userInput));
+
+        if (strippedInput == strippedStoredID) {
+            cout << "Customer ID: " << strippedStoredID << endl;
             cout << "Customer Name: " << customer.cosName << endl;
-            cout << "Customer Address: " << customer.cosAdd << endl;
+            cout << "Customer Address: " << customer.cosAdd << endl<<endl;
             return;
         }
         temp.pop();
     }
+    cerr << "Customer not found." << endl;
 }
 
 
@@ -270,17 +282,28 @@ void appendToRentalFile(string customerId, string movieId) {
     }
 
     bool customerFound = false;
+    bool movieAlreadyRented = false;
 
     while (getline(file, line)) {
-        size_t firstDelimiterPos = line.find('|');
-        if (firstDelimiterPos != string::npos) {
-            // Extract customerId part before the first '|'
-            string fileCustomerId = line.substr(0, firstDelimiterPos);
+        stringstream ss(line);
+        string fileCustomerId;
+        getline(ss, fileCustomerId, '|');
 
-            if (fileCustomerId == customerId) {
-                // Append movieId to the existing line
+        if (fileCustomerId == customerId) {
+            customerFound = true;
+
+            // Check if movieId is already rented by the customer
+            string token;
+            while (getline(ss, token, '|')) {
+                if (token == movieId) {
+                    movieAlreadyRented = true;
+                    break;
+                }
+            }
+
+            if (!movieAlreadyRented) {
+                // Append movieId to the existing line if not already rented
                 line += "|" + movieId;
-                customerFound = true;
             }
         }
         lines.push_back(line); // Store line in vector
@@ -291,6 +314,10 @@ void appendToRentalFile(string customerId, string movieId) {
     if (!customerFound) {
         // Append new line if customerId was not found
         lines.push_back(customerId + "|" + movieId);
+    }
+    else if (movieAlreadyRented) {
+        cerr << "Movie already rented by this customer." << endl;
+        return;
     }
 
     // Write updated content back to the file
@@ -303,7 +330,9 @@ void appendToRentalFile(string customerId, string movieId) {
 
 
 
+
 void CustomerManager::rentMovie() {
+    RentedManager rm;
     string inputCos, inputMov, recur;
     
     cout << "Enter Customer ID: ";
@@ -313,15 +342,19 @@ void CustomerManager::rentMovie() {
     jump:
     cout << "Enter Movie ID: ";
     cin >> inputMov;
-
-    try {
-        inputData(inputMov, "2");
-        appendToRentalFile(inputCos, inputMov);
+    if (rm.movieAlreadyRented(inputCos, inputMov)==false) {
+        try {
+            inputData(inputMov, "2");
+            appendToRentalFile(inputCos, inputMov);
+        }
+        catch (const invalid_argument& e) {
+            cerr << e.what() << endl;
+        }
     }
-    catch (const invalid_argument& e) {
-        cerr << e.what() << endl;
+    else {
+        inputData(inputMov, "4");
+        cout << "movie is already rented!!" << endl;
     }
-
     //For Function Recursion
     cout << "do you want to rent another movie?(Y/N)";
     cin >> recur;
@@ -334,7 +367,26 @@ void CustomerManager::rentMovie() {
     }
 }
 
-void CustomerManager::videoRentedByCustomer() {
+bool RentedManager::movieAlreadyRented(string customerId, string movieId) {
+    string line;
+    ifstream file("rental.txt");
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string fileCustomerId;
+        getline(ss, fileCustomerId, '|');
+        if (fileCustomerId == customerId) {
+            string token;
+            while (getline(ss, token, '|')) {
+                if (token == movieId) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void RentedManager::videoRentedByCustomer() {
     ifstream file("rental.txt");
 
     int characters;
@@ -355,6 +407,7 @@ void CustomerManager::videoRentedByCustomer() {
         
         int temp;
         string tempID;
+        CustomerManager cm;
 
         characters = rentedMovies.length();
         movieData* data = new movieData;
@@ -394,6 +447,69 @@ void CustomerManager::videoRentedByCustomer() {
         }
     }
 }
+
+void RentedManager::returnRentedVideo() {
+    string userInput;
+    //CustomerManager cm;
+
+    cout << "Enter Customer ID: ";
+    cin >> userInput;
+    cout << userInput;
+    cm.cosPrintDetails(userInput);
+
+    ifstream file("rental.txt");
+    if (!file) {
+        cerr << "Unable to open rental file." << endl;
+        return;
+    }
+
+    vector<string> lines;
+    string line;
+    vector<string> rentedMovies;
+    bool customerFound = false;
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string segment;
+        vector<string> segments;
+        while (getline(ss, segment, '|')) {
+            segments.push_back(segment);
+        }
+
+        if (segments[0] == userInput) {
+            customerFound = true;
+            for (size_t i = 1; i < segments.size(); ++i) {
+                rentedMovies.push_back(segments[i]);
+            }
+            // Do not add this line to the lines vector to effectively remove it
+            continue;
+        }
+
+        lines.push_back(line);
+    }
+    file.close();
+
+    if (!customerFound) {
+        cerr << "No movies found for the given Customer ID." << endl;
+        return;
+    }
+
+    // Process each movie ID and call inputData
+    for (const string& movieId : rentedMovies) {
+        cout << "Returned movie: " << movieId << endl;
+        inputData(movieId, "3");
+    }
+
+    // Write updated content back to the file without the customer's record
+    ofstream outFile("rental.txt");
+    for (const string& updatedLine : lines) {
+        outFile << updatedLine << endl;
+    }
+    outFile.close();
+}
+
+
+
            
 
                 
