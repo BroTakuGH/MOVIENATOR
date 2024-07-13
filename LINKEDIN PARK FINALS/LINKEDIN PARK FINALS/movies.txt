@@ -1,2 +1,2 @@
-0001|Avengers: Endgame|Sci-Fi|Marvel Studios|5
-0002|Inside Out 2|Family/Comedy|Walt Disney|4
+0001|Avengers: Endgame|Sci-Fi|Marvel Studios|3
+0002|Inside Out 2|Family/Comedy|Walt Disney|3

@@ -30,6 +30,7 @@ public:
     };
 
     queue <Customer> customers;// Queue to store customers
+
     void writeCustomersToFile();
     void readCustomers();
     void cosPrintDetails(const std::string& userInput);

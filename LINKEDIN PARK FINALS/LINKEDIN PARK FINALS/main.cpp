@@ -16,12 +16,13 @@ using namespace std;
 int main()
 {
     CustomerManager cm;
-    RentedManager rm;
     cm.readCustomers();
     int input;
     string input2;
     movieData data;
+
     here:
+
     cout << "===========================================\n";
     cout << "\t\t TITLE\n";
     cout << "===========================================\n";

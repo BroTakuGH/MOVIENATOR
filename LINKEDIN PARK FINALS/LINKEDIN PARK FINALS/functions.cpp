@@ -102,7 +102,7 @@ void inputData(string userInput, string userInput2)
         }
         else if (userInput2 == "7" && input == data->vidID) {
            
-            cout << data->vidID << data->title << endl;
+            cout << data->title << endl;
 
         }
         else if (userInput2 == "3" && input == data->vidID) {
@@ -245,7 +245,7 @@ void CustomerManager::writeCustomersToFile() {
 }
 
 void CustomerManager::cosPrintDetails(const std::string& userInput) {
-    readCustomers();
+    
     cout << "Searching for customer with ID: " << userInput << endl;
 
     queue<Customer> temp = customers;
@@ -357,14 +357,18 @@ void CustomerManager::rentMovie() {
         cout << "movie is already rented!!" << endl;
     }
     //For Function Recursion
+    invalid:
     cout << "do you want to rent another movie?(Y/N)";
     cin >> recur;
 
     if (recur == "Y" || recur == "y") {
         goto jump;
     }
-    else {
+    else if(recur == "N" || recur == "n") {
         cout << "Thank you for renting from us!!"<<endl;
+    }else {
+        cout << "Invalid Option!!" << endl;
+        goto invalid;
     }
 }
 
@@ -397,25 +401,26 @@ void CustomerManager::videoRentedByCustomer() {
     string chars;
     string data1;
     string idRentedByCustomer;
-
-    cout << "Enter ID:" << endl;
+    
+    
+    cout << "Enter Customer ID: ";
     cin >> input;
+    cosPrintDetails(input);
+
 
     cout << "List of Videos Rented: " << endl;
 
     while (getline(file, rentedMovies)) {
         int numberOfDetection = 0;
-        string inputCos;
+        
         int temp;
         string tempID;
         
-
+       
         characters = rentedMovies.length();
         movieData* data = new movieData;
 
-         cout << "Enter Customer ID: ";
-         cin >> inputCos;
-         cosPrintDetails(inputCos);
+         
 
         for (int i = 0; i < characters; i++) {
 
@@ -455,7 +460,6 @@ void CustomerManager::returnRentedVideo() {
 
     cout << "Enter Customer ID: ";
     cin >> userInput;
-    cout << userInput;
     cosPrintDetails(userInput);
 
     ifstream file("rental.txt");
