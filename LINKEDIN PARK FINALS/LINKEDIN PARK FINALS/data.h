@@ -2,6 +2,7 @@
 
 #include <string>
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -48,4 +49,21 @@ public:
     void appendToRentalFile(string customerId, string movieId);
     bool movieAlreadyRented(string customerId, string movieId);
 };
+
+using namespace std;
+
+class CustomerMaintenance {
+private:
+    struct Customer {
+        string cosID;
+        string cosName;
+        string cosAdd;
+    };
+public:
+    void newCustomers();
+    void saveToNotepad(const stack<Customer>& customers, const string& filename);
+    string generateID(int id);
+    
+};
+
 

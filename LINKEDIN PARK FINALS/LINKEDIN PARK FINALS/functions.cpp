@@ -6,10 +6,12 @@
 #include <vector>
 #include <sstream>
 #include <iomanip>
+#include <stack>
 
 using namespace std;
 
 //functions
+void newVideo();
 void movPrintables(string id, string title, string genre, string production, string copies);
 void displayAllVideos(string id, string title, string genre, string production, string copies);
 void updateMovieData(string id, string title, string genre, string production, string copies, string userInputId);
@@ -513,9 +515,59 @@ void CustomerManager::returnRentedVideo() {
     outFile.close();
 }
 
+string CustomerMaintenance::generateID(int id) {
+    return to_string(10000 + id).substr(1);
+}
 
+void CustomerMaintenance::saveToNotepad(const stack<Customer>& customers, const string& filename) {
+    ofstream file(filename);
+    stack<Customer> tempStack = customers;
 
-           
+    while (!tempStack.empty()) {
+        Customer cust = tempStack.top();
+        file << cust.cosID << "|" << cust.cosName << "|" << cust.cosAdd << endl;
+        tempStack.pop();
+    }
+
+    file.close();
+}
+
+void CustomerMaintenance::newCustomers() {
+    stack<Customer> customerStack;
+    int custCount = 0;
+    char choice;
+
+    do {
+        Customer newCustomer;
+        newCustomer.cosID = generateID(++custCount);
+
+        cout << "Enter Name: ";
+        cin.ignore();
+        getline(cin, newCustomer.cosName);
+        cout << "Enter Address: ";
+        getline(cin, newCustomer.cosAdd);
+
+        customerStack.push(newCustomer);
+
+        cout << "Customer Added: "
+            << newCustomer.cosID << "|"
+            << newCustomer.cosName << "|"
+            << newCustomer.cosAdd << endl;
+
+        cout << "Do you want to add another customer? (y/n): ";
+        cin >> choice;
+    } while (choice == 'y' || choice == 'Y');
+
+    cout << "All customers in the stack: " << endl;
+    saveToNotepad(customerStack, "deets.txt");
+
+    while (!customerStack.empty()) {
+        Customer cust = customerStack.top();
+        customerStack.pop();
+        cout << cust.cosID << "|" << cust.cosName << "|" << cust.cosAdd << endl;
+    }
+}
+         
 
                 
 

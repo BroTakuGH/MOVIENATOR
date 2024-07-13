@@ -16,6 +16,7 @@ using namespace std;
 int main()
 {
     CustomerManager cm;
+    CustomerMaintenance cm2;
     cm.readCustomers();
     int input;
     string input2;
@@ -41,6 +42,7 @@ int main()
     switch (input) {
     case 1:
 
+        goto here;
         break;
     case 2:
         cm.rentMovie();
@@ -68,7 +70,8 @@ int main()
         goto here;
         break;
     case 7:
-        cm.videoRentedByCustomer();
+        //cm.videoRentedByCustomer();
+        cm2.newCustomers();
         goto here;
         break;
     case 8:
