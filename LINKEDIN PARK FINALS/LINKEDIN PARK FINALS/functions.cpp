@@ -19,8 +19,11 @@ bool checkVideoAvailability(string numOfCopies);
 
 void inputData(string userInput, string userInput2)
 {
+    queue<movieData> videoQueue;
+    movieData data;
 
     int characters;
+    int LastID = 0;
 
     string input;
     string movies;
@@ -33,8 +36,12 @@ void inputData(string userInput, string userInput2)
 
 
     while (getline(file, movies)) {
+        
+
         int numberOfDetection = 0;
+
         characters = movies.length();
+
         movieData* data = new movieData;
 
         for (int i = 0; i < characters; i++) {
@@ -112,17 +119,23 @@ void inputData(string userInput, string userInput2)
             updateMovieData(data->vidID, data->title, data->genre, data->production, data->numOfCopies, userInput2);
         }
         
+        
         if (data->vidID != "1") {
             int realID = stoi(data->vidID) - 1;
             data->vidID = to_string(realID);
         }
-        
+        LastID++;
         delete data;
     }
-   
-  
+    
+    if (userInput2 == "1") {
+       
+        data.newVideo(videoQueue, LastID);
+    }
 }
 
+
+//returns true of the video is available
 bool checkVideoAvailability(string numOfCopies) {
     if (numOfCopies != "0") {
         return true;
@@ -568,7 +581,72 @@ void CustomerMaintenance::newCustomers() {
     }
 }
          
+// Function to save movie data to a text file
+void movieData::saveToNotepad(const queue<movieData>& videoQueue, const string& filename) {
+    ofstream file(filename, ios::app); // Open the file in append mode
+    queue<movieData> tempQueue = videoQueue; // Create a copy of the queue
 
+    // Write each movie data to the file
+    while (!tempQueue.empty()) {
+        movieData video = tempQueue.front();
+        file << video.vidID << "|" << video.title << "|" << video.genre << "|"
+            << video.production << "|" << video.numOfCopies << endl;
+        tempQueue.pop();
+    }
+    file.close(); // Close the file
+}
+
+// Function to generate a unique ID for each movie
+string movieData::generateID(int id) {
+    return to_string(10000 + id).substr(1); // Generate ID starting from 0001
+}
+
+// Function to add a new movie to the queue
+void movieData::newVideo(queue<movieData>& videoQueue, int& videoCount) {
+    char choice;
+    
+    do {
+        movieData newVideo;
+        newVideo.vidID = generateID(++videoCount); // Increment and assign video ID
+
+        // Get movie details from the user
+        cout << "Enter title: ";
+        cin.ignore();
+        getline(cin, newVideo.title);
+        cout << "Enter genre: ";
+        getline(cin, newVideo.genre);
+        cout << "Enter production: ";
+        getline(cin, newVideo.production);
+        cout << "Enter number of copies: ";
+        getline(cin, newVideo.numOfCopies);
+
+        videoQueue.push(newVideo); // Add the new movie to the queue
+
+        // Display the added movie details
+        cout << "New Video Added: "
+            << newVideo.vidID << "|"
+            << newVideo.title << "|"
+            << newVideo.genre << "|"
+            << newVideo.production << "|"
+            << newVideo.numOfCopies << endl;
+
+        // Ask if the user wants to add another movie
+        cout << "Do you want to add another video? (y/n): ";
+        cin >> choice;
+    } while (choice == 'y' || choice == 'Y');
+
+    // Save all movies in the queue to 'movies.txt'
+    cout << "All videos in the queue saved to 'movies.txt': " << endl;
+    saveToNotepad(videoQueue, "movies.txt");
+
+    // Display all movies in the queue and clear it
+    while (!videoQueue.empty()) {
+        movieData video = videoQueue.front();
+        videoQueue.pop();
+        cout << video.vidID << "|" << video.title << "|" << video.genre << "|"
+            << video.production << "|" << video.numOfCopies << endl;
+    }
+}
                 
 
                

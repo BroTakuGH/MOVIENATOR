@@ -15,9 +15,14 @@ using namespace std;
 
 int main()
 {
+    
+   
+
     CustomerManager cm;
     CustomerMaintenance cm2;
     cm.readCustomers();
+    int videoCount = 0;
+    int choice;
     int input;
     string input2;
     movieData data;
@@ -41,7 +46,8 @@ int main()
 
     switch (input) {
     case 1:
-
+        inputData("1", "1");
+        //data.newVideo(videoQueue, videoCount);
         goto here;
         break;
     case 2:

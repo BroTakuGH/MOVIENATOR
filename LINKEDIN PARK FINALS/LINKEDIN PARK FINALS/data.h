@@ -15,8 +15,16 @@ struct movieData {
     string genre;
     string production;
     string numOfCopies;
-    
+
+    void saveToNotepad(const queue<movieData>& videoQueue, const string& filename);
+    string generateID(int id);
+    void newVideo(queue<movieData>& videoQueue, int& videoCount);
+
 };
+
+
+
+
 
 
 class CustomerManager {

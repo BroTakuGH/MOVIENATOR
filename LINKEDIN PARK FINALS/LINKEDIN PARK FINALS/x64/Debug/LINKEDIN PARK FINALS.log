@@ -1,7 +1,8 @@
-﻿  main.cpp
-  functions.cpp
-D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(37,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(164,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(422,41): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+﻿  functions.cpp
+D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(43,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(177,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(435,41): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
+D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\main.cpp(25,9): warning C4101: 'choice': unreferenced local variable
   Generating Code...
   LINKEDIN PARK FINALS.vcxproj -> D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\x64\Debug\LINKEDIN PARK FINALS.exe
