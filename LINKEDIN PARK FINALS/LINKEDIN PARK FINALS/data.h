@@ -43,6 +43,7 @@ class RentedManager {
 private:
     CustomerManager cm;
 public:
+
     void appendToRentalFile(string customerId, string movieId);
     bool movieAlreadyRented(string customerId, string movieId);
 };
