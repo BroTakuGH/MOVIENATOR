@@ -34,6 +34,8 @@ public:
     void readCustomers();
     void cosPrintDetails(const std::string& userInput);
     void rentMovie();
+    void returnRentedVideo();
+    void videoRentedByCustomer();
     
 };
 
@@ -41,8 +43,7 @@ class RentedManager {
 private:
     CustomerManager cm;
 public:
-    void returnRentedVideo();
-    void videoRentedByCustomer();
+    void appendToRentalFile(string customerId, string movieId);
     bool movieAlreadyRented(string customerId, string movieId);
 };
 

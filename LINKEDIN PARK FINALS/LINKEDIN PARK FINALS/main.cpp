@@ -21,7 +21,7 @@ int main()
     int input;
     string input2;
     movieData data;
-    
+    here:
     cout << "===========================================\n";
     cout << "\t\t TITLE\n";
     cout << "===========================================\n";
@@ -43,30 +43,32 @@ int main()
         break;
     case 2:
         cm.rentMovie();
-        main();
+        goto here;
         break;
     case 3:
-        rm.returnRentedVideo();
-        main();
+        cm.returnRentedVideo();
+        goto here;
         break;
     case 4:
         cout << "Enter Movie ID: ";
         cin >> input2;
 
         inputData(input2, to_string(input));
+        goto here;
         break;
     case 5:
         inputData("1", to_string(input));
+        goto here;
         break;
     case 6:
         cout << "Enter Movie ID: ";
         cin >> input2;
-
         inputData(input2, to_string(input));
+        goto here;
         break;
     case 7:
-        rm.videoRentedByCustomer();
-        main();
+        cm.videoRentedByCustomer();
+        goto here;
         break;
     case 8:
         cm.writeCustomersToFile();

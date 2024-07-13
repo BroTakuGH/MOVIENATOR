@@ -270,7 +270,8 @@ void CustomerManager::cosPrintDetails(const std::string& userInput) {
 }
 
 
-void appendToRentalFile(string customerId, string movieId) {
+void RentedManager::appendToRentalFile(string customerId, string movieId) {
+
     string rentalFilename = "rental.txt";
     fstream file(rentalFilename, ios::in | ios::out);
     vector<string> lines;
@@ -345,7 +346,7 @@ void CustomerManager::rentMovie() {
     if (rm.movieAlreadyRented(inputCos, inputMov)==false) {
         try {
             inputData(inputMov, "2");
-            appendToRentalFile(inputCos, inputMov);
+            rm.appendToRentalFile(inputCos, inputMov);
         }
         catch (const invalid_argument& e) {
             cerr << e.what() << endl;
@@ -386,7 +387,7 @@ bool RentedManager::movieAlreadyRented(string customerId, string movieId) {
     return false;
 }
 
-void RentedManager::videoRentedByCustomer() {
+void CustomerManager::videoRentedByCustomer() {
     ifstream file("rental.txt");
 
     int characters;
@@ -404,17 +405,17 @@ void RentedManager::videoRentedByCustomer() {
 
     while (getline(file, rentedMovies)) {
         int numberOfDetection = 0;
-        
+        string inputCos;
         int temp;
         string tempID;
-        CustomerManager cm;
+        
 
         characters = rentedMovies.length();
         movieData* data = new movieData;
 
-        /* cout << "Enter Customer ID: ";
+         cout << "Enter Customer ID: ";
          cin >> inputCos;
-         CustomerManager::cosPrintDetails(inputCos);*/
+         cosPrintDetails(inputCos);
 
         for (int i = 0; i < characters; i++) {
 
@@ -448,14 +449,14 @@ void RentedManager::videoRentedByCustomer() {
     }
 }
 
-void RentedManager::returnRentedVideo() {
+void CustomerManager::returnRentedVideo() {
     string userInput;
-    //CustomerManager cm;
+    
 
     cout << "Enter Customer ID: ";
     cin >> userInput;
     cout << userInput;
-    cm.cosPrintDetails(userInput);
+    cosPrintDetails(userInput);
 
     ifstream file("rental.txt");
     if (!file) {
