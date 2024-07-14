@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iomanip>
 #include <stack>
+#include <algorithm>
 
 using namespace std;
 
@@ -292,22 +293,18 @@ void CustomerManager::cosPrintDetails(const std::string& userInput) {
 }
 
 
-void RentedManager::appendToRentalFile(string customerId, string movieId) {
+void CustomerManager::appendToRentalStack(string customerId, string movieId) {
 
-    string rentalFilename = "rental.txt";
-    fstream file(rentalFilename, ios::in | ios::out);
     vector<string> lines;
-    string line;
-
-    if (!file) {
-        cerr << "Unable to open rental file." << endl;
-        return;
-    }
-
     bool customerFound = false;
     bool movieAlreadyRented = false;
 
-    while (getline(file, line)) {
+    // Copy stack to a vector for easier manipulation
+    stack<string> tempStack = customerRental;
+    while (!tempStack.empty()) {
+        std::string line = tempStack.top();
+        tempStack.pop();
+
         stringstream ss(line);
         string fileCustomerId;
         getline(ss, fileCustomerId, '|');
@@ -332,8 +329,6 @@ void RentedManager::appendToRentalFile(string customerId, string movieId) {
         lines.push_back(line); // Store line in vector
     }
 
-    file.close();
-
     if (!customerFound) {
         // Append new line if customerId was not found
         lines.push_back(customerId + "|" + movieId);
@@ -343,12 +338,11 @@ void RentedManager::appendToRentalFile(string customerId, string movieId) {
         return;
     }
 
-    // Write updated content back to the file
-    ofstream outFile(rentalFilename);
+    // Update the stack with the new contents
+    customerRental = stack<string>();
     for (const string& updatedLine : lines) {
-        outFile << updatedLine << endl;
+        customerRental.push(updatedLine);
     }
-    outFile.close();
 }
 
 
@@ -356,20 +350,20 @@ void RentedManager::appendToRentalFile(string customerId, string movieId) {
 
 void CustomerManager::rentMovie() {
     movieData md;
-    RentedManager rm;
+    
     string inputCos, inputMov, recur;
     
     cout << "Enter Customer ID: ";
     cin >> inputCos;
-    CustomerManager::cosPrintDetails(inputCos);
+    cosPrintDetails(inputCos);
 
     jump:
     cout << "Enter Movie ID: ";
     cin >> inputMov;
-    if (rm.movieAlreadyRented(inputCos, inputMov)==false) {
+    if (movieAlreadyRented(inputCos, inputMov)==false) {
         try {
             md.inputData(inputMov, "2");
-            rm.appendToRentalFile(inputCos, inputMov);
+            appendToRentalStack(inputCos, inputMov);
         }
         catch (const invalid_argument& e) {
             cerr << e.what() << endl;
@@ -395,110 +389,83 @@ void CustomerManager::rentMovie() {
     }
 }
 
-bool RentedManager::movieAlreadyRented(string customerId, string movieId) {
-    string line;
-    ifstream file("rental.txt");
-    while (getline(file, line)) {
+bool CustomerManager::movieAlreadyRented(string customerId, string movieId) {
+    stack<string> tempStack = customerRental; // Useing temporary stack to avoid modifying the original stack
+
+    while (!tempStack.empty()) {
+        string line = tempStack.top();
+        tempStack.pop();
+
         stringstream ss(line);
         string fileCustomerId;
         getline(ss, fileCustomerId, '|');
+
         if (fileCustomerId == customerId) {
             string token;
             while (getline(ss, token, '|')) {
                 if (token == movieId) {
-                    return true;
+                    return true; // Movie is rented by this customer
                 }
             }
         }
     }
-    return false;
+    return false; 
 }
 
 void CustomerManager::videoRentedByCustomer() {
-    movieData md;
-    ifstream file("rental.txt");
-
-    int characters;
+    movieData md; // Assuming movieData class is available and has inputData method
 
     string input;
     string rentedMovies;
     string chars;
-    string data1;
     string idRentedByCustomer;
-    
-    
+
     cout << "Enter Customer ID: ";
     cin >> input;
-    cosPrintDetails(input);
 
+    cosPrintDetails(input);
 
     cout << "List of Videos Rented: " << endl;
 
-    while (getline(file, rentedMovies)) {
-        int numberOfDetection = 0;
-        
-        int temp;
-        string tempID;
-        
-       
-        characters = rentedMovies.length();
-        movieData* data = new movieData;
+    stack<string> tempStack = customerRental; // Using temporary stack to read data
 
-         
+    while (!tempStack.empty()) {
+        rentedMovies = tempStack.top();
+        tempStack.pop();
 
-        for (int i = 0; i < characters; i++) {
+        stringstream ss(rentedMovies);
+        string fileCustomerId;
+        getline(ss, fileCustomerId, '|');
 
-            chars = rentedMovies[i];
-
-            if (chars == "|") {
-                numberOfDetection++;
-            }
-            if (chars != "0" && numberOfDetection == 0) {
-                //add the id from chars
-                tempID = chars;
+        if (fileCustomerId == input) {
+            string token;
+            while (getline(ss, token, '|')) {
+                if (idRentedByCustomer != token) {
+                    md.inputData(token, "7"); // Add movie ID to movieData
+                    idRentedByCustomer = token; // Update last rented movie ID
                 }
-                
-            //check Customer ID
-            if (input == tempID && numberOfDetection != 0 && chars != "|") {
-                //detect if Movie ID was repeated
-                if (idRentedByCustomer == chars) {
-                    temp++;
-                }
-                else if (idRentedByCustomer != chars) {
-                    temp = 0;
-                }
-                idRentedByCustomer = chars;
-                
-                if (temp == 0) {
-                    md.inputData(idRentedByCustomer, "7");
-                }
-                
             }
         }
     }
 }
 
 void CustomerManager::returnRentedVideo() {
-    movieData md;
+    movieData md; 
 
     string userInput;
-
     cout << "Enter Customer ID: ";
     cin >> userInput;
     cosPrintDetails(userInput);
 
-    ifstream file("rental.txt");
-    if (!file) {
-        cerr << "Unable to open rental file." << endl;
-        return;
-    }
-
-    vector<string> lines;
-    string line;
-    vector<string> rentedMovies;
+    stack<string> tempStack = customerRental; // Use a temporary stack to process data
+    vector<string> updatedLines; // To store the lines for the updated stack
+    vector<string> rentedMovies; // To store rented movies for processing
     bool customerFound = false;
 
-    while (getline(file, line)) {
+    while (!tempStack.empty()) {
+        string line = tempStack.top();
+        tempStack.pop();
+
         stringstream ss(line);
         string segment;
         vector<string> segments;
@@ -511,13 +478,12 @@ void CustomerManager::returnRentedVideo() {
             for (size_t i = 1; i < segments.size(); ++i) {
                 rentedMovies.push_back(segments[i]);
             }
-            // Do not add this line to the lines vector to effectively remove it
+            // Do not add this line to the updatedLines vector to effectively remove it
             continue;
         }
 
-        lines.push_back(line);
+        updatedLines.push_back(line);
     }
-    file.close();
 
     if (!customerFound) {
         cerr << "No movies found for the given Customer ID." << endl;
@@ -530,12 +496,11 @@ void CustomerManager::returnRentedVideo() {
         md.inputData(movieId, "3");
     }
 
-    // Write updated content back to the file without the customer's record
-    ofstream outFile("rental.txt");
-    for (const string& updatedLine : lines) {
-        outFile << updatedLine << endl;
+    // Clear the stack and re-populate it with updated lines
+    customerRental = stack<string>();
+    for (const string& updatedLine : updatedLines) {
+        customerRental.push(updatedLine);
     }
-    outFile.close();
 }
 
 string CustomerManager::generateID(int id) {
@@ -690,4 +655,86 @@ void CustomerManager::customerMaintenanceMenu() {
     } while (subMenu != 4);
 }
             
+void CustomerManager::readCustomerRental() {
+    string line;
+    ifstream file("rental.txt");
+    
+    if (!file.is_open()) {
+        cerr << "Error: Could not open file rental.txt" << endl;
+        return;
+    }
 
+    while (std::getline(file, line)) {
+        customerRental.push(line);
+    }
+    file.close();
+}
+
+bool compareByCustomerId(const string a, const string b) {
+    stringstream ssA(a);         
+    stringstream ssB(b);
+    string customerIdA, customerIdB;
+
+    getline(ssA, customerIdA, '|');
+    getline(ssB, customerIdB, '|');
+
+    return customerIdA < customerIdB;
+}
+
+void sortMovieIds(vector<string>& movieIds) {
+    // Sort movie IDs
+    sort(movieIds.begin(), movieIds.end());
+}
+
+void CustomerManager::writeCustomerRental() {
+    ofstream file("rental.txt");
+
+    if (!file.is_open()) {
+        cerr << "Error: Could not open file rental.txt for writing" << endl;
+        return;
+    }
+
+    // Collect lines from the stack into a vector
+    stack<string> tempStack = customerRental;
+    vector<string> lines;
+
+    while (!tempStack.empty()) {
+        lines.push_back(tempStack.top());
+        tempStack.pop();
+    }
+
+    // Process each line to sort movie IDs
+    vector<string> processedLines;
+    for (string& line : lines) {
+        stringstream ss(line);
+        string customerId;
+        getline(ss, customerId, '|'); // Extract customer ID
+
+        vector<string> movieIds;
+        string movieId;
+        while (getline(ss, movieId, '|')) {
+            movieIds.push_back(movieId);
+        }
+
+        // Sort movie IDs
+        sortMovieIds(movieIds);
+
+        // Reconstruct the line
+        stringstream newLine;
+        newLine << customerId;
+        for (const string& sortedMovieId : movieIds) {
+            newLine << "|" << sortedMovieId;
+        }
+        processedLines.push_back(newLine.str());
+    }
+
+    // Sort lines based on customer ID
+    sort(processedLines.begin(), processedLines.end(), compareByCustomerId); //This sorting is a merged quicksort, heapsort and insertsort which is called IntoSort in the standard library
+
+    // Write sorted and updated lines back to the file
+    for (const string& line : processedLines) {
+        file << line << endl;
+    }
+
+    file.close();
+}

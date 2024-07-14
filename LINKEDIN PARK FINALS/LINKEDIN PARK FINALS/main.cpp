@@ -14,7 +14,7 @@ using namespace std;
 int main()
 {
     CustomerManager cm;
-   
+    cm.readCustomerRental();
     cm.readCustomers();
     int videoCount = 0;
     int choice;
@@ -88,6 +88,7 @@ int main()
         break;
     case 8:
         cm.writeCustomersToFile();
+        cm.writeCustomerRental();
         break;
     }
 }

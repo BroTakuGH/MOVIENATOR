@@ -38,6 +38,10 @@ public:
     };
 
     queue <Customer> customers;// Queue to store customers
+    stack <string> customerRental;
+
+    void readCustomerRental();
+    void writeCustomerRental();
 
     void writeCustomersToFile();
     void readCustomers();
@@ -51,20 +55,14 @@ public:
     void showCostumerDetails();
 
     void customerMaintenanceMenu();
-
+    void appendToRentalStack(string customerId, string movieId);
     //void printCustomers();
-    
-};
-
-class RentedManager {
-private:
-    CustomerManager cm;
-public:
-
-    void appendToRentalFile(string customerId, string movieId);
     bool movieAlreadyRented(string customerId, string movieId);
+    
 
 };
+
+
 
 
 
