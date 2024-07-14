@@ -66,15 +66,16 @@ int main()
     case 5:
             
         data.inputData("1", to_string(input));
-        cout << endl << "Continue? (Y/N)";
-        cin >> input;
+    here1:
+        cout << "Enter (Y) to continue: ";
+        cin >> input1;
         if (input1 == "Y" || input1 == "y") {
             main();
         }
-        else if (input1 == "N" || input1 == "n") {
-            cm.writeCustomersToFile();
+        else {
+            cout << "INVALID INPUT" << endl;
+            goto here1;
         }
-        goto here;
         break;
     case 6:
         cout << "Enter Movie ID: ";
