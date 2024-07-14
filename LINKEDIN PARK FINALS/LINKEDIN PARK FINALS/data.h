@@ -38,6 +38,7 @@ public:
     };
 
     queue <Customer> customers;// Queue to store customers
+    stack <string> customerRental;
 
     void writeCustomersToFile();
     void readCustomers();
@@ -46,26 +47,20 @@ public:
     void returnRentedVideo();
     void videoRentedByCustomer();
     string generateID(int id);
+    void newCustomers1();
     void newCustomers(int custCount);
-
     void showCostumerDetails();
 
-    void customerMaintenanceMenu();
-
-    //void printCustomers();
     
-    void newCustomers1();
-};
 
-class RentedManager {
-private:
-    CustomerManager cm;
-public:
-
-    void appendToRentalFile(string customerId, string movieId);
+    void readCustomerRental();
+    void writeCustomerRental();
+    void customerMaintenanceMenu();
+    void appendToRentalStack(string customerId, string movieId);
     bool movieAlreadyRented(string customerId, string movieId);
-
 };
+
+
 
 
 

@@ -10,3 +10,5 @@
 0010|test12|test12
 0011|TESTT|TESTT
 0012|test|test
+0013|Halaman|lupa
+0014|hadog|rep
