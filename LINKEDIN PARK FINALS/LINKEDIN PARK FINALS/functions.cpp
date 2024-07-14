@@ -133,6 +133,10 @@ void movieData::inputData(string userInput, string userInput2)
             updateMovieData(data->vidID, data->title, data->genre, data->production, data->numOfCopies, userInput2);
             
         }
+        else {
+            cout << "INVALID INPUT!" << endl;
+            return;
+        }
         
         
         if (data->vidID != "1") {
@@ -277,8 +281,28 @@ void CustomerManager::writeCustomersToFile() {
     }
 }
 
+bool isInteger(const string& s) {
+    try {
+        size_t pos;
+        int num = stoi(s, &pos);
+        // Ensure that the whole string was used to convert to an integer
+        return pos == s.length();
+    }
+    catch (invalid_argument& e) {
+        // Catch invalid_argument exception if conversion is not possible
+        return false;
+    }
+    catch (out_of_range& e) {
+        // Catch out_of_range exception if the number is too large to fit in an int
+        return false;
+    }
+}
+
 void CustomerManager::cosPrintDetails(const std::string& userInput) {
     int lastID = 0;
+
+   
+
     string tempInput = userInput;
     if (userInput != "findLastID") {
         cout << "Searching for customer with ID: " << userInput << endl;
@@ -318,20 +342,6 @@ void CustomerManager::cosPrintDetails(const std::string& userInput) {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 string CustomerManager::generateID(int id) {
     return to_string(10000 + id).substr(1);;
@@ -478,6 +488,14 @@ void CustomerManager::customerMaintenanceMenu() {
 
         cin >> subMenu;
 
+        if (cin.fail()) {
+            cin.clear(); // Clear the error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+            cout << "Invalid selection. Please enter a number between 1 and 4." << endl;
+            continue; // Skip to the next iteration of the loop
+        }
+
+
         switch (subMenu) {
         case 1:
             newCustomers1();
@@ -493,7 +511,7 @@ void CustomerManager::customerMaintenanceMenu() {
             break;
         default:
             cout << "Invalid selection. Please try again." << endl;
-            goto here;
+            break;
         }
     } while (subMenu != 4);
 }
@@ -692,7 +710,14 @@ void CustomerManager::returnRentedVideo() {
     string userInput;
     cout << "Enter Customer ID: ";
     cin >> userInput;
-    cosPrintDetails(userInput);
+    if (!isInteger(userInput)) { //checks if its convertible to int
+        cout << "Please input a valid number!" << endl;
+        returnRentedVideo();
+    }
+    else {
+        cosPrintDetails(userInput);
+    }
+    
 
     stack<string> tempStack = customerRental; // Use a temporary stack to process data
     vector<string> updatedLines; // To store the lines for the updated stack

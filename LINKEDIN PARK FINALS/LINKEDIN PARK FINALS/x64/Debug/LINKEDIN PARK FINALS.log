@@ -1,4 +1,7 @@
 ﻿  functions.cpp
-C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(44,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(195,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  LINKEDIN PARK FINALS.vcxproj -> C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\x64\Debug\LINKEDIN PARK FINALS.exe
+D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(44,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(199,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(291,30): warning C4101: 'e': unreferenced local variable
+D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(295,26): warning C4101: 'e': unreferenced local variable
+D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(479,5): warning C4102: 'here': unreferenced label
+  LINKEDIN PARK FINALS.vcxproj -> D:\GITHUB REPOSITORY\MOVIENATOR\LINKEDIN PARK FINALS\x64\Debug\LINKEDIN PARK FINALS.exe
