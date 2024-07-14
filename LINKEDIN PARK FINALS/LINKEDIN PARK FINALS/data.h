@@ -44,6 +44,11 @@ public:
     void videoRentedByCustomer();
     string generateID(int id);
     void newCustomers();
+
+    void showCostumerDetails();
+
+    void customerMaintenanceMenu();
+
     void printCustomers();
     
 };

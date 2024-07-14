@@ -83,7 +83,7 @@ int main()
         goto here;
         break;
     case 7:
-        customerMaintenanceMenu();
+        cm.customerMaintenanceMenu();
         goto here;
         break;
     case 8:
@@ -92,38 +92,5 @@ int main()
     }
 }
 
-void customerMaintenanceMenu() {
-    CustomerManager cm;
 
-    int subMenu;
-    do {
-        cout << "===========================================\n";
-        cout << "\t Customer Maintenance\n";
-        cout << "===========================================\n";
-        cout << "[1] Add New Customer\n";
-        cout << "[2] Show Customer Details\n";
-        cout << "[3] List of Videos Rented by a Customer\n";
-        cout << "[4] Exit to Main Menu\n";
-        cout << "===========================================\n";
-
-        cin >> subMenu;
-
-        switch (subMenu) {
-        case 1:
-            cm.newCustomers();
-            break;
-        case 2:
-            cm.printCustomers();
-            break;
-        case 3:
-            cm.videoRentedByCustomer();
-            break;
-        case 4:
-            cout << "Exiting to Main Menu..." << endl;
-            main();
-        default:
-            cout << "Invalid selection. Please try again." << endl;
-        }
-    } while (subMenu != 4);
-}
 

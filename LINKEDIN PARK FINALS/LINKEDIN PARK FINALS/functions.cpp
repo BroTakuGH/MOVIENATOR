@@ -647,7 +647,47 @@ void movieData::newVideo(queue<movieData>& videoQueue, int& videoCount) {
     }
 }
                 
+void CustomerManager::showCostumerDetails() {
+    string input;
+    cout << "Enter Costumer ID: ";
+    cin >> input;
+    cosPrintDetails(input);
+}
 
-               
+void CustomerManager::customerMaintenanceMenu() {
+
+    int subMenu;
+    do {
+    here:
+        cout << "===========================================\n";
+        cout << "\t Customer Maintenance\n";
+        cout << "===========================================\n";
+        cout << "[1] Add New Customer\n";
+        cout << "[2] Show Customer Details\n";
+        cout << "[3] List of Videos Rented by a Customer\n";
+        cout << "[4] Exit to Main Menu\n";
+        cout << "===========================================\n";
+
+        cin >> subMenu;
+
+        switch (subMenu) {
+        case 1:
+            newCustomers();
+            break;
+        case 2:
+            showCostumerDetails();
+            break;
+        case 3:
+            videoRentedByCustomer();
+            break;
+        case 4:
+            cout << "Exiting to Main Menu..." << endl;
+            break;
+        default:
+            cout << "Invalid selection. Please try again." << endl;
+            goto here;
+        }
+    } while (subMenu != 4);
+}
             
 
