@@ -17,7 +17,7 @@ void displayAllVideos(string id, string title, string genre, string production, 
 void updateMovieData(string id, string title, string genre, string production, string copies, string userInputId);
 bool checkVideoAvailability(string numOfCopies);
 
-void inputData(string userInput, string userInput2)
+void movieData::inputData(string userInput, string userInput2)
 {
     queue<movieData> videoQueue;
     movieData data;
@@ -146,19 +146,26 @@ bool checkVideoAvailability(string numOfCopies) {
 }
 
 void movPrintables(string id, string title, string genre, string production, string copies) {
+   
     cout << "Video ID: " << id << endl;
     cout << "Title: " << title << endl;
     cout << "Genre: " << genre << endl;
     cout << "Production: " << production << endl;
     cout << "Number of Copies: " << copies << endl;
+   
+    
 }
 
 void displayAllVideos(string id, string title, string genre, string production, string copies) {
+    
+
+    string input;
     cout << "Video ID: " << id << endl;
     cout << "Title: " << title << endl;
     cout << "Genre: " << genre << endl;
     cout << "Production: " << production << endl;
     cout << "Number of Copies: " << copies << endl;
+    
 }
 
 void costumerPrintables(string ID, string Name, string Address) {
@@ -348,6 +355,7 @@ void RentedManager::appendToRentalFile(string customerId, string movieId) {
 
 
 void CustomerManager::rentMovie() {
+    movieData md;
     RentedManager rm;
     string inputCos, inputMov, recur;
     
@@ -360,7 +368,7 @@ void CustomerManager::rentMovie() {
     cin >> inputMov;
     if (rm.movieAlreadyRented(inputCos, inputMov)==false) {
         try {
-            inputData(inputMov, "2");
+            md.inputData(inputMov, "2");
             rm.appendToRentalFile(inputCos, inputMov);
         }
         catch (const invalid_argument& e) {
@@ -368,7 +376,7 @@ void CustomerManager::rentMovie() {
         }
     }
     else {
-        inputData(inputMov, "4");
+        md.inputData(inputMov, "4");
         cout << "movie is already rented!!" << endl;
     }
     //For Function Recursion
@@ -407,6 +415,7 @@ bool RentedManager::movieAlreadyRented(string customerId, string movieId) {
 }
 
 void CustomerManager::videoRentedByCustomer() {
+    movieData md;
     ifstream file("rental.txt");
 
     int characters;
@@ -461,7 +470,7 @@ void CustomerManager::videoRentedByCustomer() {
                 idRentedByCustomer = chars;
                 
                 if (temp == 0) {
-                    inputData(idRentedByCustomer, "7");
+                    md.inputData(idRentedByCustomer, "7");
                 }
                 
             }
@@ -470,8 +479,9 @@ void CustomerManager::videoRentedByCustomer() {
 }
 
 void CustomerManager::returnRentedVideo() {
+    movieData md;
+
     string userInput;
-    
 
     cout << "Enter Customer ID: ";
     cin >> userInput;
@@ -517,7 +527,7 @@ void CustomerManager::returnRentedVideo() {
     // Process each movie ID and call inputData
     for (const string& movieId : rentedMovies) {
         cout << "Returned movie: " << movieId << endl;
-        inputData(movieId, "3");
+        md.inputData(movieId, "3");
     }
 
     // Write updated content back to the file without the customer's record

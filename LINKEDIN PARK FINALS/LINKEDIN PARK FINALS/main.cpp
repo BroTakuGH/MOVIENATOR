@@ -4,26 +4,23 @@
 #include <string>
 #include "data.h"
 
-//test11111
 
-struct test {
-    string x;
-    string y;
-    string z;
-};
+void customerMaintenanceMenu();
+
 using namespace std;
+
+
 
 int main()
 {
-    
-   
-
     CustomerManager cm;
    
     cm.readCustomers();
     int videoCount = 0;
     int choice;
     int input;
+
+    string input1;
     string input2;
     movieData data;
 
@@ -46,7 +43,7 @@ int main()
 
     switch (input) {
     case 1:
-        inputData("1", "1");
+        data.inputData("1", "1");
         //data.newVideo(videoQueue, videoCount);
         goto here;
         break;
@@ -62,28 +59,71 @@ int main()
         cout << "Enter Movie ID: ";
         cin >> input2;
 
-        inputData(input2, to_string(input));
+        data.inputData(input2, to_string(input));
+
         goto here;
         break;
     case 5:
-        inputData("1", to_string(input));
+            
+        data.inputData("1", to_string(input));
+        cout << endl << "Continue? (Y/N)";
+        cin >> input;
+        if (input1 == "Y" || input1 == "y") {
+            main();
+        }
+        else if (input1 == "N" || input1 == "n") {
+            cm.writeCustomersToFile();
+        }
         goto here;
         break;
     case 6:
         cout << "Enter Movie ID: ";
         cin >> input2;
-        inputData(input2, to_string(input));
+        data.inputData(input2, to_string(input));
         goto here;
         break;
     case 7:
-        //cm.videoRentedByCustomer();
-        cm.newCustomers();
-        cm.printCustomers();
+        customerMaintenanceMenu();
         goto here;
         break;
     case 8:
         cm.writeCustomersToFile();
         break;
     }
+}
+
+void customerMaintenanceMenu() {
+    CustomerManager cm;
+
+    int subMenu;
+    do {
+        cout << "===========================================\n";
+        cout << "\t Customer Maintenance\n";
+        cout << "===========================================\n";
+        cout << "[1] Add New Customer\n";
+        cout << "[2] Show Customer Details\n";
+        cout << "[3] List of Videos Rented by a Customer\n";
+        cout << "[4] Exit to Main Menu\n";
+        cout << "===========================================\n";
+
+        cin >> subMenu;
+
+        switch (subMenu) {
+        case 1:
+            cm.newCustomers();
+            break;
+        case 2:
+            cm.printCustomers();
+            break;
+        case 3:
+            cm.videoRentedByCustomer();
+            break;
+        case 4:
+            cout << "Exiting to Main Menu..." << endl;
+            main();
+        default:
+            cout << "Invalid selection. Please try again." << endl;
+        }
+    } while (subMenu != 4);
 }
 
