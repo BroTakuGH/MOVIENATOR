@@ -19,7 +19,7 @@ int main()
    
 
     CustomerManager cm;
-    CustomerMaintenance cm2;
+   
     cm.readCustomers();
     int videoCount = 0;
     int choice;
@@ -77,7 +77,8 @@ int main()
         break;
     case 7:
         //cm.videoRentedByCustomer();
-        cm2.newCustomers();
+        cm.newCustomers();
+        cm.printCustomers();
         goto here;
         break;
     case 8:

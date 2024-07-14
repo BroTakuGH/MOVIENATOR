@@ -528,25 +528,26 @@ void CustomerManager::returnRentedVideo() {
     outFile.close();
 }
 
-string CustomerMaintenance::generateID(int id) {
+string CustomerManager::generateID(int id) {
     return to_string(10000 + id).substr(1);
 }
 
-void CustomerMaintenance::saveToNotepad(const stack<Customer>& customers, const string& filename) {
-    ofstream file(filename);
-    stack<Customer> tempStack = customers;
+void CustomerManager::printCustomers() {
+    // Displaying all customers in the queue without removing them
+    queue<Customer> tempQueue = customers;
+    while (!tempQueue.empty()) {
+        Customer cust = tempQueue.front();
+        tempQueue.pop();
 
-    while (!tempStack.empty()) {
-        Customer cust = tempStack.top();
-        file << cust.cosID << "|" << cust.cosName << "|" << cust.cosAdd << endl;
-        tempStack.pop();
+        // Remove leading zeros from cosID
+        string id = cust.cosID;
+        id.erase(0, std::min(id.find_first_not_of('0'), id.size() - 1));
+
+        cout << id << "|" << cust.cosName << "|" << cust.cosAdd << endl;
     }
-
-    file.close();
 }
 
-void CustomerMaintenance::newCustomers() {
-    stack<Customer> customerStack;
+void CustomerManager::newCustomers() {
     int custCount = 0;
     char choice;
 
@@ -560,25 +561,13 @@ void CustomerMaintenance::newCustomers() {
         cout << "Enter Address: ";
         getline(cin, newCustomer.cosAdd);
 
-        customerStack.push(newCustomer);
+        customers.push(newCustomer);  // Add the new customer to the queue
 
-        cout << "Customer Added: "
-            << newCustomer.cosID << "|"
-            << newCustomer.cosName << "|"
-            << newCustomer.cosAdd << endl;
+        cout << "Customer Added: "<< newCustomer.cosID << "|" << newCustomer.cosName << "|" << newCustomer.cosAdd << endl;
 
         cout << "Do you want to add another customer? (y/n): ";
         cin >> choice;
     } while (choice == 'y' || choice == 'Y');
-
-    cout << "All customers in the stack: " << endl;
-    saveToNotepad(customerStack, "deets.txt");
-
-    while (!customerStack.empty()) {
-        Customer cust = customerStack.top();
-        customerStack.pop();
-        cout << cust.cosID << "|" << cust.cosName << "|" << cust.cosAdd << endl;
-    }
 }
          
 // Function to save movie data to a text file
