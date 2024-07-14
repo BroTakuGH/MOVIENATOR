@@ -12,7 +12,7 @@
 using namespace std;
 
 //functions
-
+bool checkIfMovieExist(string movID);
 void movPrintables(string id, string title, string genre, string production, string copies);
 void displayAllVideos(string id, string title, string genre, string production, string copies);
 void updateMovieData(string id, string title, string genre, string production, string copies, string userInputId);
@@ -553,6 +553,30 @@ void CustomerManager::appendToRentalStack(string customerId, string movieId) {
     }
 }
 
+bool checkIfMovieExist(string movID) {
+    ifstream file("movies.txt");
+    if (!file.is_open()) {
+        std::cerr << "Unable to open file: " << "movies/txt" << std::endl;
+        return false;
+    }
+
+    string line;
+    while (getline(file, line)) {
+        // Extract the movID part from the line
+        size_t delimiterPos = line.find('|');
+        if (delimiterPos != std::string::npos) {
+            string currentMovID = line.substr(0, delimiterPos);
+            if (currentMovID == movID) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+
+
+}
+
 void CustomerManager::rentMovie() {
     movieData md;
 
@@ -567,8 +591,15 @@ jump:
     cin >> inputMov;
     if (movieAlreadyRented(inputCos, inputMov) == false) {
         try {
-            md.inputData(inputMov, "2");
-            appendToRentalStack(inputCos, inputMov);
+            if (checkIfMovieExist(inputMov)) {
+                md.inputData(inputMov, "2");
+                appendToRentalStack(inputCos, inputMov);
+            }
+            else {
+                cout << "movie does not exist!!!" << endl<<endl;
+                goto jump;
+            }
+            
         }
         catch (const invalid_argument& e) {
             cerr << e.what() << endl;
