@@ -39,7 +39,7 @@ void movieData::inputData(string userInput, string userInput2)
         
 
         int numberOfDetection = 0;
-
+        int tempID = 9;
         characters = movies.length();
 
         movieData* data = new movieData;
@@ -50,9 +50,10 @@ void movieData::inputData(string userInput, string userInput2)
             if (chars == "|") {
                 numberOfDetection++;
             }
-            if (chars != "0" && numberOfDetection == 0) {
-               
-                data->vidID = chars;
+            if (numberOfDetection == 0) {
+
+                data->vidID += chars;
+
             }
             
 
@@ -124,9 +125,11 @@ void movieData::inputData(string userInput, string userInput2)
             cout << data->title << endl;
 
         }
-        else if (userInput2 == "3" && input == data->vidID) {
+        else if (userInput2 == "3" && input == data->vidID && numberOfDetection != 0) {
             data->numOfCopies = to_string(stoi(data->numOfCopies) + 1);
+            
             updateMovieData(data->vidID, data->title, data->genre, data->production, data->numOfCopies, userInput2);
+            
         }
         
         
@@ -197,15 +200,15 @@ void updateMovieData(string id, string title, string genre, string production, s
             if (chars == "|") {
                 numberOfDetection++;
             }
-            if (chars != "0" && numberOfDetection == 0) {
-                tempID = chars;
+            if (numberOfDetection == 0) {
+                tempID += chars;
             }
                 line += chars;
         }
-        
+        cout << id << "TESTINGG !";
         if (id == tempID) {
-            string temp = to_string(10000 + stoi(id)).substr(1);
-            line = temp + "|" + title + "|" + genre + "|" + production + "|" + copies;
+            
+            line = id + "|" + title + "|" + genre + "|" + production + "|" + copies;
         }
         lines.push_back(line);
         line = {""};
