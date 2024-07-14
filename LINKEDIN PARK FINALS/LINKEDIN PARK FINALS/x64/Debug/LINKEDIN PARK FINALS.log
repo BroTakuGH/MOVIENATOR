@@ -1,3 +1,5 @@
-﻿  main.cpp
-C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\main.cpp(20,9): warning C4101: 'choice': unreferenced local variable
+﻿  functions.cpp
+C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(43,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(184,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(444,41): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
   LINKEDIN PARK FINALS.vcxproj -> C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\x64\Debug\LINKEDIN PARK FINALS.exe

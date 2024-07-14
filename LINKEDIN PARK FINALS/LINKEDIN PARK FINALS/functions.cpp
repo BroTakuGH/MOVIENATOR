@@ -542,20 +542,20 @@ string CustomerManager::generateID(int id) {
     return to_string(10000 + id).substr(1);
 }
 
-void CustomerManager::printCustomers() {
-    // Displaying all customers in the queue without removing them
-    queue<Customer> tempQueue = customers;
-    while (!tempQueue.empty()) {
-        Customer cust = tempQueue.front();
-        tempQueue.pop();
-
-        // Remove leading zeros from cosID
-        string id = cust.cosID;
-        id.erase(0, std::min(id.find_first_not_of('0'), id.size() - 1));
-
-        cout << id << "|" << cust.cosName << "|" << cust.cosAdd << endl;
-    }
-}
+//void CustomerManager::printCustomers() {
+//    // Displaying all customers in the queue without removing them
+//    queue<Customer> tempQueue = customers;
+//    while (!tempQueue.empty()) {
+//        Customer cust = tempQueue.front();
+//        tempQueue.pop();
+//
+//        // Remove leading zeros from cosID
+//        string id = cust.cosID;
+//        id.erase(0, std::min(id.find_first_not_of('0'), id.size() - 1));
+//
+//        cout << id << "|" << cust.cosName << "|" << cust.cosAdd << endl;
+//    }
+//}
 
 void CustomerManager::newCustomers() {
     int custCount = 0;

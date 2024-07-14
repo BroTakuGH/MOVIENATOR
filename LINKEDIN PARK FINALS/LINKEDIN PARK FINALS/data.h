@@ -28,10 +28,13 @@ private:
      
 
 public:
+
     struct Customer {
+
         string cosID;
         string cosName;
         string cosAdd;
+
     };
 
     queue <Customer> customers;// Queue to store customers
@@ -49,7 +52,7 @@ public:
 
     void customerMaintenanceMenu();
 
-    void printCustomers();
+    //void printCustomers();
     
 };
 
@@ -60,6 +63,7 @@ public:
 
     void appendToRentalFile(string customerId, string movieId);
     bool movieAlreadyRented(string customerId, string movieId);
+
 };
 
 
