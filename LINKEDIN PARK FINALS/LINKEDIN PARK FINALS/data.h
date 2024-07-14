@@ -46,7 +46,7 @@ public:
     void returnRentedVideo();
     void videoRentedByCustomer();
     string generateID(int id);
-    void newCustomers();
+    void newCustomers(int custCount);
 
     void showCostumerDetails();
 
@@ -54,6 +54,7 @@ public:
 
     //void printCustomers();
     
+    void newCustomers1();
 };
 
 class RentedManager {

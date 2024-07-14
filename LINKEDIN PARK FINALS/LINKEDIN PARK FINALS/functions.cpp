@@ -81,6 +81,7 @@ void movieData::inputData(string userInput, string userInput2)
             displayAllVideos(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
             int inputToString = stoi(input) + 1;
             input = to_string(inputToString);
+        
         }
         else  if (userInput2 == "4" && input == data->vidID || userInput2 == "6" && input == data->vidID) {
            // cout << input << " INPUT";
@@ -93,7 +94,16 @@ void movieData::inputData(string userInput, string userInput2)
                 else {
                     cout << "Availability: Unavailable" << endl;
                 }
-
+            }
+        here:
+            cout << "Enter (Y) to continue: ";
+            cin >> input;
+            if (input == "Y" || input == "y") {
+                return;
+            }
+            else {
+                cout << "INVALID INPUT" << endl;
+                goto here;
             }
         }
         else if (userInput2 == "2" && input == data->vidID) {
@@ -146,20 +156,16 @@ bool checkVideoAvailability(string numOfCopies) {
 }
 
 void movPrintables(string id, string title, string genre, string production, string copies) {
-   
+    string input;
     cout << "Video ID: " << id << endl;
     cout << "Title: " << title << endl;
     cout << "Genre: " << genre << endl;
     cout << "Production: " << production << endl;
     cout << "Number of Copies: " << copies << endl;
-   
-    
 }
 
 void displayAllVideos(string id, string title, string genre, string production, string copies) {
     
-
-    string input;
     cout << "Video ID: " << id << endl;
     cout << "Title: " << title << endl;
     cout << "Genre: " << genre << endl;
@@ -267,28 +273,45 @@ void CustomerManager::writeCustomersToFile() {
 }
 
 void CustomerManager::cosPrintDetails(const std::string& userInput) {
-    
-    cout << "Searching for customer with ID: " << userInput << endl;
-
+    int lastID = 0;
+    string tempInput = userInput;
+    if (userInput != "findLastID") {
+        cout << "Searching for customer with ID: " << userInput << endl;
+    }
     queue<Customer> temp = customers;
     while (!temp.empty()) {
+
+     if (userInput != "findLastID") {
         Customer customer = temp.front();
 
-        
+
         string strippedStoredID = to_string(stoi(customer.cosID));
 
-        
+
         string strippedInput = to_string(stoi(userInput));
 
         if (strippedInput == strippedStoredID) {
             cout << "Customer ID: " << strippedStoredID << endl;
             cout << "Customer Name: " << customer.cosName << endl;
-            cout << "Customer Address: " << customer.cosAdd << endl<<endl;
+            cout << "Customer Address: " << customer.cosAdd << endl << endl;
             return;
         }
-        temp.pop();
+        
+     }
+     else {
+         lastID++;
+     }
+     temp.pop();
     }
-    cerr << "Customer not found." << endl;
+
+    if (userInput == "findLastID") {
+        newCustomers(lastID);
+    }
+    else if (userInput != "findLastID") {
+        cerr << "Customer not found." << endl;
+    }
+
+
 }
 
 
@@ -476,6 +499,16 @@ void CustomerManager::videoRentedByCustomer() {
             }
         }
     }
+here:
+    cout << "Enter (Y) to continue: ";
+    cin >> input;
+    if (input == "Y" || input == "y") {
+        return;
+    }
+    else {
+        cout << "INVALID INPUT" << endl;
+        goto here;
+    }
 }
 
 void CustomerManager::returnRentedVideo() {
@@ -490,7 +523,16 @@ void CustomerManager::returnRentedVideo() {
     ifstream file("rental.txt");
     if (!file) {
         cerr << "Unable to open rental file." << endl;
-        return;
+    here:
+        cout << "Enter (Y) to continue: ";
+        cin >> userInput;
+        if (userInput == "Y" || userInput == "y") {
+            return;
+        }
+        else {
+            cout << "INVALID INPUT" << endl;
+            goto here;
+        }
     }
 
     vector<string> lines;
@@ -521,7 +563,16 @@ void CustomerManager::returnRentedVideo() {
 
     if (!customerFound) {
         cerr << "No movies found for the given Customer ID." << endl;
-        return;
+    here1:
+        cout << "Enter (Y) to continue: ";
+        cin >> userInput;
+        if (userInput == "Y" || userInput == "y") {
+            return;
+        }
+        else {
+            cout << "INVALID INPUT" << endl;
+            goto here1;
+        }
     }
 
     // Process each movie ID and call inputData
@@ -536,6 +587,17 @@ void CustomerManager::returnRentedVideo() {
         outFile << updatedLine << endl;
     }
     outFile.close();
+here2:
+    cout << "Enter (Y) to continue: ";
+    cin >> userInput;
+    if (userInput == "Y" || userInput == "y") {
+        return;
+    }
+    else {
+        cout << "INVALID INPUT" << endl;
+        goto here2;
+    }
+
 }
 
 string CustomerManager::generateID(int id) {
@@ -557,8 +619,10 @@ string CustomerManager::generateID(int id) {
 //    }
 //}
 
-void CustomerManager::newCustomers() {
-    int custCount = 0;
+void CustomerManager::newCustomers1() {  
+    cosPrintDetails("findLastID");
+}
+void CustomerManager::newCustomers(int custCount) {
     char choice;
 
     do {
@@ -652,6 +716,16 @@ void CustomerManager::showCostumerDetails() {
     cout << "Enter Costumer ID: ";
     cin >> input;
     cosPrintDetails(input);
+    here:
+    cout << "Enter (Y) to continue: ";
+    cin >> input;
+    if (input == "Y" || input == "y") {
+        return;
+    }
+    else {
+        cout << "INVALID INPUT" << endl;
+        goto here;
+    }
 }
 
 void CustomerManager::customerMaintenanceMenu() {
@@ -672,7 +746,7 @@ void CustomerManager::customerMaintenanceMenu() {
 
         switch (subMenu) {
         case 1:
-            newCustomers();
+            newCustomers1();
             break;
         case 2:
             showCostumerDetails();
