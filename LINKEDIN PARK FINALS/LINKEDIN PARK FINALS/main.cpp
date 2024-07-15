@@ -4,12 +4,7 @@
 #include <string>
 #include "data.h"
 
-
-
-
 using namespace std;
-
-
 
 int main()
 {
@@ -44,7 +39,6 @@ int main()
     switch (input) {
     case 1:
         data.inputData("1", "1");
-        //data.newVideo(videoQueue, videoCount);
         goto here;
         break;
     case 2:

@@ -16,8 +16,8 @@ struct movieData {
     string production;
     string numOfCopies;
 
-    void saveToNotepad(const queue<movieData>& videoQueue, const string& filename);
     string generateID(int id);
+    void saveToNotepad(const queue<movieData>& videoQueue, const string& filename);
     void newVideo(queue<movieData>& videoQueue, int& videoCount);
     void inputData(string userInput, string userInput2);
 
@@ -40,13 +40,14 @@ public:
     queue <Customer> customers;// Queue to store customers
     stack <string> customerRental;
 
+    string generateID(int id);
+
     void writeCustomersToFile();
     void readCustomers();
     void cosPrintDetails(const std::string& userInput);
     void rentMovie();
     void returnRentedVideo();
     void videoRentedByCustomer();
-    string generateID(int id);
     void newCustomers1();
     void newCustomers(int custCount);
     void showCostumerDetails();

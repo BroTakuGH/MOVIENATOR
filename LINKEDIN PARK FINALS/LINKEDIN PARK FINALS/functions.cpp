@@ -39,7 +39,7 @@ void movieData::inputData(string userInput, string userInput2)
     while (getline(file, movies)) {
         
 
-        int numberOfDetection = 0;
+        int numberOfDetection = 0;//counts the detector of the "|" separator
         int tempID = 9;
         characters = movies.length();
 
@@ -62,16 +62,16 @@ void movieData::inputData(string userInput, string userInput2)
 
                 switch (numberOfDetection) {
                 case 1:
-                    data->title += chars;
+                    data->title += chars;//retrieves the title of the movie
                     break;
                 case 2:
-                    data->genre += chars;
+                    data->genre += chars;//retrieves the genre of the movie
                     break;
                 case 3:
-                    data->production += chars;
+                    data->production += chars;//retrieves the production of the movie
                     break;
                 case 4:
-                    data->numOfCopies += chars;
+                    data->numOfCopies += chars;//retrieves the number of copies of the movie
                     
                     break;
                 }
@@ -79,13 +79,13 @@ void movieData::inputData(string userInput, string userInput2)
             
         }
         
-        if (userInput2 == "5") {
+        if (userInput2 == "5") {//OPTION 5
             displayAllVideos(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
             int inputToString = stoi(input) + 1;
             input = to_string(inputToString);
         
         }
-        else  if (userInput2 == "4" && input == data->vidID || userInput2 == "6" && input == data->vidID) {
+        else  if (userInput2 == "4" && input == data->vidID || userInput2 == "6" && input == data->vidID) {//OPTION 4 AND 6
            // cout << input << " INPUT";
             movPrintables(data->vidID, data->title, data->genre, data->production, data->numOfCopies);
            // cout << data->vidID << " INPUT VID ID";
@@ -108,7 +108,7 @@ void movieData::inputData(string userInput, string userInput2)
                 goto here;
             }
         }
-        else if (userInput2 == "2" && input == data->vidID) {
+        else if (userInput2 == "2" && input == data->vidID) {//OPTION 2
 
             if (stoi(data->numOfCopies) != 0)
             {
@@ -121,22 +121,19 @@ void movieData::inputData(string userInput, string userInput2)
                 cout << "Movie Not Available";
             }
         }
-        else if (userInput2 == "7" && input == data->vidID) {
+        else if (userInput2 == "7" && input == data->vidID) {//OPTION 7
            
             cout << data->title << endl;
 
         }
-        else if (userInput2 == "3" && input == data->vidID && numberOfDetection !=0) {
+        else if (userInput2 == "3" && input == data->vidID && numberOfDetection !=0) {//OPTION 3
 
             data->numOfCopies = to_string(stoi(data->numOfCopies) + 1);
             
             updateMovieData(data->vidID, data->title, data->genre, data->production, data->numOfCopies, userInput2);
             
         }
-        else {
-            cout << "INVALID INPUT!" << endl;
-            return;
-        }
+       
         
         
         if (data->vidID != "1") {
@@ -147,7 +144,7 @@ void movieData::inputData(string userInput, string userInput2)
         delete data;
     }
     
-    if (userInput2 == "1") {
+    if (userInput2 == "1") {//OPTION 1
        
         data.newVideo(videoQueue, LastID);
     }
@@ -163,24 +160,25 @@ bool checkVideoAvailability(string numOfCopies) {
         return false;
     }
 }
-
+//PRINTS THE MOVIE DATA IN DETAILED FORM
 void movPrintables(string id, string title, string genre, string production, string copies) {
-    string input;
-    cout << "Video ID: " << id << endl;
-    cout << "Title: " << title << endl;
-    cout << "Genre: " << genre << endl;
-    cout << "Production: " << production << endl;
-    cout << "Number of Copies: " << copies << endl;
-}
 
-void displayAllVideos(string id, string title, string genre, string production, string copies) {
-    
     cout << "Video ID: " << id << endl;
     cout << "Title: " << title << endl;
     cout << "Genre: " << genre << endl;
     cout << "Production: " << production << endl;
     cout << "Number of Copies: " << copies << endl;
-    
+
+}
+// DISPLAYS ALL VIDEOS
+void displayAllVideos(string id, string title, string genre, string production, string copies) {
+
+    cout << "Video ID: " << id << endl;
+    cout << "Title: " << title << endl;
+    cout << "Genre: " << genre << endl;
+    cout << "Production: " << production << endl;
+    cout << "Number of Copies: " << copies << endl;
+
 }
 
 void costumerPrintables(string ID, string Name, string Address) {
@@ -344,23 +342,8 @@ void CustomerManager::cosPrintDetails(const std::string& userInput) {
 }
 
 string CustomerManager::generateID(int id) {
-    return to_string(10000 + id).substr(1);;
+    return to_string(10000 + id).substr(1);
 }
-
-//void CustomerManager::printCustomers() {
-//    // Displaying all customers in the queue without removing them
-//    queue<Customer> tempQueue = customers;
-//    while (!tempQueue.empty()) {
-//        Customer cust = tempQueue.front();
-//        tempQueue.pop();
-//
-//        // Remove leading zeros from cosID
-//        string id = cust.cosID;
-//        id.erase(0, std::min(id.find_first_not_of('0'), id.size() - 1));
-//
-//        cout << id << "|" << cust.cosName << "|" << cust.cosAdd << endl;
-//    }
-//}
 
 void CustomerManager::newCustomers1() {  
     cosPrintDetails("findLastID");
@@ -471,7 +454,7 @@ void CustomerManager::showCostumerDetails() {
         goto here;
     }
 }
-
+//SUBMENU
 void CustomerManager::customerMaintenanceMenu() {
 
     int subMenu;
@@ -666,7 +649,7 @@ bool CustomerManager::movieAlreadyRented(string customerId, string movieId) {
     }
     return false;
 }
-
+//SHOWS LITS OF VIDEOS RENTED
 void CustomerManager::videoRentedByCustomer() {
     movieData md; // Assuming movieData class is available and has inputData method
 
