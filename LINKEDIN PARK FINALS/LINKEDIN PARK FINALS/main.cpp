@@ -64,7 +64,7 @@ int main()
         cout << "Enter (Y) to continue: ";
         cin >> input1;
         if (input1 == "Y" || input1 == "y") {
-            main();
+            goto here;
         }
         else {
             cout << "INVALID INPUT" << endl;

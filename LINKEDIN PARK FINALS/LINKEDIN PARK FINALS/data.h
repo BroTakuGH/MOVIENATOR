@@ -44,7 +44,7 @@ public:
 
     void writeCustomersToFile();
     void readCustomers();
-    void cosPrintDetails(const std::string& userInput);
+    void cosPrintDetails(const std::string& userInput, string menu);
     void rentMovie();
     void returnRentedVideo();
     void videoRentedByCustomer();

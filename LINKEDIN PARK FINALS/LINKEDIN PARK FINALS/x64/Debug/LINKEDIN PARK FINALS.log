@@ -1,13 +1,9 @@
-﻿  main.cpp
-C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\main.cpp(15,9): warning C4101: 'choice': unreferenced local variable
-  functions.cpp
+﻿  functions.cpp
 C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(44,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(193,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(237,30): warning C4101: 'e': unreferenced local variable
 C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(241,26): warning C4101: 'e': unreferenced local variable
-C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(409,5): warning C4102: 'here': unreferenced label
-C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(870,56): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(882,56): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  retrievedata.cpp
-  Generating Code...
+C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(419,5): warning C4102: 'here': unreferenced label
+C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(880,56): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\LINKEDIN PARK FINALS\functions.cpp(892,56): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
   LINKEDIN PARK FINALS.vcxproj -> C:\Users\Rays\Documents\GitHub\MOVIENATOR\LINKEDIN PARK FINALS\x64\Debug\LINKEDIN PARK FINALS.exe

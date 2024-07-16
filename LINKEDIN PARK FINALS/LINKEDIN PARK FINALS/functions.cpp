@@ -245,7 +245,7 @@ bool isInteger(const string& s) {
 }
 
 //CHECKS IF THE USER EXIST AND PRINTS THE CUSTOMER DETAILS
-void CustomerManager::cosPrintDetails(const string& userInput) {
+void CustomerManager::cosPrintDetails(const string& userInput, string menu) {
     int lastID = 0;
 
     string tempInput = userInput;
@@ -283,6 +283,16 @@ void CustomerManager::cosPrintDetails(const string& userInput) {
     }
     else if (userInput != "findLastID") {
         cerr << "Customer not found." << endl;
+        switch (stoi(menu))
+        {
+        case 2:rentMovie();
+            break;
+        case 3:returnRentedVideo();
+            break;
+        case 7:customerMaintenanceMenu();
+            break;
+        default:break;
+        }
     }
 
 
@@ -293,7 +303,7 @@ string CustomerManager::generateID(int id) {
 }
 
 void CustomerManager::newCustomers1() {  
-    cosPrintDetails("findLastID");
+    cosPrintDetails("findLastID","0");
 }
 
 void CustomerManager::newCustomers(int custCount) {
@@ -389,7 +399,7 @@ void CustomerManager::showCostumerDetails() {
     string input;
     cout << "Enter Costumer ID: ";
     cin >> input;
-    cosPrintDetails(input);
+    cosPrintDetails(input,"7");
     here:
     cout << "Enter (Y) to continue: ";
     cin >> input;
@@ -584,7 +594,7 @@ void CustomerManager::rentMovie() {
 
     cout << "Enter Customer ID: ";
     cin >> inputCos;
-    cosPrintDetails(inputCos);
+    cosPrintDetails(inputCos, "2");
 
 jump:
     cout << "Enter Movie ID: ";
@@ -662,7 +672,7 @@ void CustomerManager::videoRentedByCustomer() {
     cout << "Enter Customer ID: ";
     cin >> input;
 
-    cosPrintDetails(input);
+    cosPrintDetails(input,"7");
 
     cout << "List of Videos Rented: " << endl;
 
@@ -701,7 +711,7 @@ void CustomerManager::returnRentedVideo() {
         returnRentedVideo();
     }
     else {
-        cosPrintDetails(userInput);
+        cosPrintDetails(userInput, "3");
     }
     
 
