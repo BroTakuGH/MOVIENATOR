@@ -181,18 +181,14 @@ void displayAllVideos(string id, string title, string genre, string production, 
 
 }
 
-void costumerPrintables(string ID, string Name, string Address) {
-    cout << "ID: " << ID << endl;
-    cout << "Name: " << Name << endl;
-    cout << "Address: " << Address << endl;
-}
-
+//UPDATES THE NUMBER OF COPIES OF THE MOVIES IN THE TEXT FILE
 void updateMovieData(string id, string title, string genre, string production, string copies, string userInputId) {
     ifstream file("movies.txt");
     vector<string> lines;
     string movies;
     string chars;
     string line;
+
     while (getline(file, movies)) {
         int characters = movies.length();
         int numberOfDetection = 0;
@@ -209,7 +205,7 @@ void updateMovieData(string id, string title, string genre, string production, s
             }
                 line += chars;
         }
-        /*cout << id << "TESTINGG !";*/
+      
         if (id == tempID) {
             
             line = id + "|" + title + "|" + genre + "|" + production + "|" + copies;
@@ -228,56 +224,8 @@ void updateMovieData(string id, string title, string genre, string production, s
             file.close();
 
 }
-void CustomerManager::readCustomers() {
-    string filename = "customers.txt";
-    ifstream file(filename);
-    if (file.is_open()) {
-        string line;
-        while (getline(file, line)) {
-            Customer cust;
-            stringstream ss(line);
-            string token;
 
-            // Read ID (assumed to be the first token before '|')
-            getline(ss, token, '|');
-            cust.cosID = token; 
-            cust.cosID.erase(0, min(cust.cosID.find_first_not_of('0'), cust.cosID.size() - 1));
-            // Read rest of the line as name (after '|')
-            getline(ss, cust.cosName, '|');
 
-            getline(ss, cust.cosAdd, '|');
-
-            customers.push(cust);
-        }
-        file.close();
-        
-    }
-    else {
-        cout << "Unable to open file " << filename << endl;
-    }
-}
-
-void CustomerManager::writeCustomersToFile() {
-    string filename = "customers.txt";
-    ofstream file(filename, ios::trunc); // Ensures that all data is deleted before inserting the contents of the queue
-    if (file.is_open()) {
-        while (!customers.empty()) {
-            Customer cust = customers.front();
-
-            // Format cosID with leading zeros
-            file << setw(4) << setfill('0') << cust.cosID << "|"
-                << cust.cosName << "|"
-                << cust.cosAdd << endl;
-
-            customers.pop();
-        }
-        file.close();
-        cout << "Customer data successfully saved to file." << endl;
-    }
-    else {
-        cout << "Unable to open file " << filename << " for writing." << endl;
-    }
-}
 
 bool isInteger(const string& s) {
     try {
@@ -296,10 +244,9 @@ bool isInteger(const string& s) {
     }
 }
 
-void CustomerManager::cosPrintDetails(const std::string& userInput) {
+//CHECKS IF THE USER EXIST AND PRINTS THE CUSTOMER DETAILS
+void CustomerManager::cosPrintDetails(const string& userInput) {
     int lastID = 0;
-
-   
 
     string tempInput = userInput;
     if (userInput != "findLastID") {
@@ -499,9 +446,59 @@ void CustomerManager::customerMaintenanceMenu() {
     } while (subMenu != 4);
 }
 
+//READS CUSTOMER TEXT FILE AND INPUTS THE DATA INTO A QUEUE
+void CustomerManager::readCustomers() {
+    string filename = "customers.txt";
+    ifstream file(filename);
+    if (file.is_open()) {
+        string line;
+        while (getline(file, line)) {
+            Customer cust;
+            stringstream ss(line);
+            string token;
 
+            // Read ID (assumed to be the first token before '|')
+            getline(ss, token, '|');
+            cust.cosID = token;
+            cust.cosID.erase(0, min(cust.cosID.find_first_not_of('0'), cust.cosID.size() - 1));
+            // Read rest of the line as name (after '|')
+            getline(ss, cust.cosName, '|');
 
+            getline(ss, cust.cosAdd, '|');
 
+            customers.push(cust);
+        }
+        file.close();
+    }
+    else {
+        cout << "Unable to open file " << filename << endl;
+    }
+}
+
+//WRITES THE DATA FROM CUSTOMER QUEUE BACK TO THE CUSTOMER TEXT FILE
+void CustomerManager::writeCustomersToFile() {
+    string filename = "customers.txt";
+    ofstream file(filename, ios::trunc); // Ensures that all data is deleted before inserting the contents of the queue
+    if (file.is_open()) {
+        while (!customers.empty()) {
+            Customer cust = customers.front();
+
+            // Format cosID with leading zeros
+            file << setw(4) << setfill('0') << cust.cosID << "|"
+                << cust.cosName << "|"
+                << cust.cosAdd << endl;
+
+            customers.pop();
+        }
+        file.close();
+        cout << "Customer data successfully saved to file." << endl;
+    }
+    else {
+        cout << "Unable to open file " << filename << " for writing." << endl;
+    }
+}
+
+//APPENDS THE MOVIE ID NEXT TO THE CUSTOMER ID THAT ALREADY RENTING OR CREATE NEW LINE IN THE STACK
 void CustomerManager::appendToRentalStack(string customerId, string movieId) {
 
     vector<string> lines;
@@ -554,6 +551,7 @@ void CustomerManager::appendToRentalStack(string customerId, string movieId) {
     }
 }
 
+//CHECKS IF THE MOVIE EXIST
 bool checkIfMovieExist(string movID) {
     ifstream file("movies.txt");
     if (!file.is_open()) {
@@ -578,6 +576,7 @@ bool checkIfMovieExist(string movID) {
 
 }
 
+//LETS THE CUSTOMER RENT A MOVIE
 void CustomerManager::rentMovie() {
     movieData md;
 
@@ -591,16 +590,16 @@ jump:
     cout << "Enter Movie ID: ";
     cin >> inputMov;
     if (movieAlreadyRented(inputCos, inputMov) == false) {
+
         try {
             if (checkIfMovieExist(inputMov)) {
                 md.inputData(inputMov, "2");
                 appendToRentalStack(inputCos, inputMov);
             }
             else {
-                cout << "movie does not exist!!!" << endl<<endl;
+                cout << "movie does not exist//or not availablle!!!" << endl<<endl;
                 goto jump;
             }
-            
         }
         catch (const invalid_argument& e) {
             cerr << e.what() << endl;
@@ -627,8 +626,9 @@ invalid:
     }
 }
 
+//CHECKS IF THE CUSTOMER ALREADY RENTED THE MOVIE
 bool CustomerManager::movieAlreadyRented(string customerId, string movieId) {
-    stack<string> tempStack = customerRental; // Useing temporary stack to avoid modifying the original stack
+    stack<string> tempStack = customerRental; // Using temporary stack to avoid modifying the original stack
 
     while (!tempStack.empty()) {
         string line = tempStack.top();
@@ -649,6 +649,7 @@ bool CustomerManager::movieAlreadyRented(string customerId, string movieId) {
     }
     return false;
 }
+
 //SHOWS LITS OF VIDEOS RENTED
 void CustomerManager::videoRentedByCustomer() {
     movieData md; // Assuming movieData class is available and has inputData method
@@ -687,12 +688,14 @@ void CustomerManager::videoRentedByCustomer() {
     }
 }
 
+//RETURNS THE MOVIE RENTED BY CUSTOMER
 void CustomerManager::returnRentedVideo() {
     movieData md;
 
     string userInput;
     cout << "Enter Customer ID: ";
     cin >> userInput;
+
     if (!isInteger(userInput)) { //checks if its convertible to int
         cout << "Please input a valid number!" << endl;
         returnRentedVideo();
@@ -714,6 +717,7 @@ void CustomerManager::returnRentedVideo() {
         stringstream ss(line);
         string segment;
         vector<string> segments;
+
         while (getline(ss, segment, '|')) {
             segments.push_back(segment);
         }
@@ -748,6 +752,73 @@ void CustomerManager::returnRentedVideo() {
     }
 }
 
+bool compareByCustomerId(const string& line1, const string& line2) {
+    stringstream ss1(line1);
+    stringstream ss2(line2);
+    string customerId1, customerId2;
+    getline(ss1, customerId1, '|');
+    getline(ss2, customerId2, '|');
+    return customerId1 < customerId2;
+}
+
+void quicksortMovieIds(vector<string>& movieIds, int left, int right) {
+    if (left < right) {
+        // Partitioning
+        string pivot = movieIds[left + (right - left) / 2];
+        int i = left - 1;
+        int j = right + 1;
+
+        while (true) {
+            do {
+                i++;
+            } while (movieIds[i] < pivot);
+
+            do {
+                j--;
+            } while (pivot < movieIds[j]);
+
+            if (i >= j)
+                break;
+
+            swap(movieIds[i], movieIds[j]);
+        }
+
+        // Recursively sort two partitions
+        quicksortMovieIds(movieIds, left, j);
+        quicksortMovieIds(movieIds, j + 1, right);
+    }
+}
+
+void quicksort(vector<string>& lines, int left, int right) {
+    if (left < right) {
+        // Partitioning
+        string pivot = lines[left + (right - left) / 2];
+        int i = left - 1;
+        int j = right + 1;
+
+        while (true) {
+            do {
+                i++;
+            } while (compareByCustomerId(lines[i], pivot));
+
+            do {
+                j--;
+            } while (compareByCustomerId(pivot, lines[j]));
+
+            if (i >= j)
+                break;
+
+            swap(lines[i], lines[j]);
+        }
+
+        // Recursively sort two partitions
+        quicksort(lines, left, j);
+        quicksort(lines, j + 1, right);
+    }
+}
+
+
+//Reads the rental.txt file and feeds the data into a stack
 void CustomerManager::readCustomerRental() {
     string line;
     ifstream file("rental.txt");
@@ -763,22 +834,7 @@ void CustomerManager::readCustomerRental() {
     file.close();
 }
 
-bool compareByCustomerId(const string a, const string b) {
-    stringstream ssA(a);
-    stringstream ssB(b);
-    string customerIdA, customerIdB;
-
-    getline(ssA, customerIdA, '|');
-    getline(ssB, customerIdB, '|');
-
-    return customerIdA < customerIdB;
-}
-
-void sortMovieIds(vector<string>& movieIds) {
-    // Sort movie IDs
-    sort(movieIds.begin(), movieIds.end());
-}
-
+//writes the customer rental stack back into the text file
 void CustomerManager::writeCustomerRental() {
     ofstream file("rental.txt");
 
@@ -796,8 +852,9 @@ void CustomerManager::writeCustomerRental() {
         tempStack.pop();
     }
 
-    // Process each line to sort movie IDs
+    // Process each line to sort movie IDs and sort lines based on customer ID
     vector<string> processedLines;
+
     for (string& line : lines) {
         stringstream ss(line);
         string customerId;
@@ -809,8 +866,8 @@ void CustomerManager::writeCustomerRental() {
             movieIds.push_back(movieId);
         }
 
-        // Sort movie IDs
-        sortMovieIds(movieIds);
+        // Sort movie IDs using quicksort
+        quicksortMovieIds(movieIds, 0, movieIds.size() - 1);
 
         // Reconstruct the line
         stringstream newLine;
@@ -821,8 +878,8 @@ void CustomerManager::writeCustomerRental() {
         processedLines.push_back(newLine.str());
     }
 
-    // Sort lines based on customer ID
-    sort(processedLines.begin(), processedLines.end(), compareByCustomerId); //This sorting is a merged quicksort, heapsort and insertsort which is called IntoSort in the standard library
+    // Sort lines based on customer ID using quicksort
+    quicksort(processedLines, 0, processedLines.size() - 1);
 
     // Write sorted and updated lines back to the file
     for (const string& line : processedLines) {
