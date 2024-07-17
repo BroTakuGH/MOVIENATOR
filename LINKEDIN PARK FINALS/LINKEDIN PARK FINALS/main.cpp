@@ -85,6 +85,8 @@ int main()
         cm.writeCustomersToFile();
         cm.writeCustomerRental();
         break;
+    default:cout<<"INVALID INPUT" << endl;
+        goto here;
     }
 }
 

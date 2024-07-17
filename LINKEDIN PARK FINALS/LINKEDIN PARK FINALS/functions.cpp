@@ -252,6 +252,7 @@ void CustomerManager::cosPrintDetails(const string& userInput, string menu) {
     if (userInput != "findLastID") {
         cout << "Searching for customer with ID: " << userInput << endl;
     }
+
     queue<Customer> temp = customers;
     while (!temp.empty()) {
 
@@ -399,17 +400,24 @@ void CustomerManager::showCostumerDetails() {
     string input;
     cout << "Enter Costumer ID: ";
     cin >> input;
-    cosPrintDetails(input,"7");
+    if(isInteger(input)){
+        cosPrintDetails(input, "7");
     here:
-    cout << "Enter (Y) to continue: ";
-    cin >> input;
-    if (input == "Y" || input == "y") {
-        return;
+        cout << "Enter (Y) to continue: ";
+        cin >> input;
+        if (input == "Y" || input == "y") {
+            return;
+        }
+        else {
+            cout << "INVALID INPUT" << endl;
+            goto here;
+        }
     }
     else {
         cout << "INVALID INPUT" << endl;
         goto here;
     }
+    
 }
 //SUBMENU
 void CustomerManager::customerMaintenanceMenu() {
@@ -591,10 +599,18 @@ void CustomerManager::rentMovie() {
     movieData md;
 
     string inputCos, inputMov, recur;
+here:
 
     cout << "Enter Customer ID: ";
     cin >> inputCos;
-    cosPrintDetails(inputCos, "2");
+
+    if (isInteger(inputCos)) {
+        cosPrintDetails(inputCos, "2");
+    }
+    else {
+        cout << "INVALID INPUT"<<endl;
+        goto here; }
+    
 
 jump:
     cout << "Enter Movie ID: ";
@@ -669,10 +685,17 @@ void CustomerManager::videoRentedByCustomer() {
     string chars;
     string idRentedByCustomer;
 
+    here:
     cout << "Enter Customer ID: ";
     cin >> input;
-
-    cosPrintDetails(input,"7");
+    if (isInteger(input)) {
+        cosPrintDetails(input, "7");
+    }
+    else {
+        cout << "INVALID INPUT" << endl;
+        goto here;
+    }
+   
 
     cout << "List of Videos Rented: " << endl;
 
